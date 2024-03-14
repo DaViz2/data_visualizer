@@ -1,6 +1,6 @@
 # data_visualizer
 
-yarn을 각자 설치하고 yarn add를 하면 보통은 잘 될겁니다.
+yarn을 각자 설치하고 yarn install을 하면 보통은 잘 될겁니다.
 
 이후에 yarn start를 하면 리액트 기본 아이콘이 돌아가는 사이트가 하나 나와야 합니다.
 
