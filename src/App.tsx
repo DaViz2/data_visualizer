@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Circle from './app/stage/component/Circle';
 
 function App() {
   return (
