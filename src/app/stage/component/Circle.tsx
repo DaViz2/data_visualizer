@@ -2,18 +2,12 @@ import React from 'react';
 
 interface CircleProps {
     radius?: number;
-    color?: string;
+    value?: number;
 }
 
-const Circle: React.FC<CircleProps> = ({ radius = 100, color = 'red'}) => {
-    const circleStyle: React.CSSProperties = {
-        width: radius * 2,
-        height: radius * 2,
-        borderRadius: '50%',
-        backgroundColor: color,
-    };
+const Circle: React.FC<CircleProps> = ({radius = 16, value}) => {
 
-    return <div style={circleStyle}></div>;
-};
+    return <div className={`w-32 h-32 bg-purple-500 rounded-full flex justify-center items-center`}>{value}</div>;
+}
 
 export default Circle;
