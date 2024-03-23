@@ -5,8 +5,7 @@ interface CircleProps {
     color?: string;
 }
 
-
-const Circle: React.FC<CircleProps> = ({ radius = 10, color = 'red'}) => {
+const Circle: React.FC<CircleProps> = ({ radius = 100, color = 'red'}) => {
     const circleStyle: React.CSSProperties = {
         width: radius * 2,
         height: radius * 2,
@@ -14,9 +13,7 @@ const Circle: React.FC<CircleProps> = ({ radius = 10, color = 'red'}) => {
         backgroundColor: color,
     };
 
-
     return <div style={circleStyle}></div>;
 };
-
 
 export default Circle;
