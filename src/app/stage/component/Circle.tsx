@@ -6,7 +6,7 @@ interface CircleProps {
 }
 
 
-const Circle: React.FC<CircleProps> = ({ radius = 10, color = 'red' }) => {
+const Circle: React.FC<CircleProps> = ({ radius = 10, color = 'red'}) => {
     const circleStyle: React.CSSProperties = {
         width: radius * 2,
         height: radius * 2,
