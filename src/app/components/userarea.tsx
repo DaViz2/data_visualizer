@@ -1,7 +1,14 @@
+import TabComponent from "./tab";
+
 export default function Userarea() {
+  const tabs = [
+    { title: 'Code Area', content: <div>Content for Tab 1</div> },
+    { title: 'Blue Print', content: <div>Content for Tab 2</div> },
+  ];
+
   return (
     <div className="flex w-full h-full">
-      <div className="flex grow-[1] h-[100%] flex-col items-center justify-between p-24 bg-slate-100"/>
+      <TabComponent tabs={tabs} />
     </div>
   );
 }
