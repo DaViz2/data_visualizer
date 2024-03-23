@@ -36,5 +36,6 @@
   },
   "plugins": [
       "@typescript-eslint"
-  ]
+  ],
+  "ignorePatterns": ["postcss.config.js"]
 }
