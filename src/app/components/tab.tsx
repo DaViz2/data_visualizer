@@ -20,18 +20,18 @@ const TabComponent: React.FC<TabComponentProps> = ({ tabs }) => {
 
   return (
     <div className="flex flex-col h-full w-full ">
-      <div className="flex flex-row grow-[1] w-[20rem]">
+      <div className="flex flex-row">
         {tabs.map((tab, index) => (
           <button 
             key={index}
             onClick={() => handleTabClick(index)}
-            className={(index === activeTab ? 'active' : '') + " p-5 bg-blue-100"}
+            className={(index === activeTab ? 'active ' : '') + "flex pr-3 w-[10rem] h-[2rem]"}
           >
-            {tab.title}
+            <div className={`flex ${(index === 0 ? 'bg-[#7D0000] ' : 'bg-black ')} w-full h-full justify-center items-center`}>{tab.title}</div>
           </button>
         ))}
       </div>
-      <div className="flex grow-[18] w-full">
+      <div className="flex h-full w-full">
         {tabs[activeTab].content}
       </div>
     </div>
