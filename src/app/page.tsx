@@ -1,6 +1,7 @@
 'use client'
 import React from 'react';
 import Image from "next/image";
+import { Userarea, Showarea } from './components/components';
 
 import { useState, useEffect } from "react";
 import Graph from "./stage/component/Graph/Graph";
@@ -19,32 +20,21 @@ let dat = [
   [6,7,8,9,0]
   ]
 export default function Home() {
-
-  const [selection, setSelection] = useState([]);
-  useEffect(() => {
-    console.log(selection);
-  }, [selection]);
-
+  // <main className="flex h-[100vh] flex-row items-center p-5"></main>
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Graph nodes={testJson.nodes} edges={testJson.edges} />
-      <Draggable>
-        <div>
-          <DataTable
-            headers={headers}
-            items={items}
-            selectable={true}
-            updateSelection={setSelection} />
-        </div>
-      </Draggable>
-      <Draggable>
-        <div>
-          <ArrayTable
-            board={testJson2}
-            />
-        </div>
-        </Draggable>
-    </main >
-
+    <main className="flex h-full flex-row items-center p-5 bg-gray">
+      <div
+        className="flex h-full items-center p-5 bg-slate-300"
+        style={{ maxWidth: '40%', minWidth: '40%' }}
+      >
+        <Userarea />
+      </div>
+      <div
+        className="flex h-full items-center p-5 bg-slate-100"
+        style={{ maxWidth: '60%', minWidth: '60%' }}
+      >
+        <Showarea />
+      </div>
+    </main>
   );
 }
