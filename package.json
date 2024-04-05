@@ -9,7 +9,9 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@types/file-saver": "^2.0.7",
     "bootstrap": "^5.3.3",
+    "file-saver": "^2.0.5",
     "next": "14.1.4",
     "react": "^18",
     "react-bootstrap": "^2.10.2",
