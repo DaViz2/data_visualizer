@@ -10,8 +10,14 @@ function Board() {
   };
 
   return (
-    <div>
-      <textarea id="content" value={content} onChange={handleContentChange} />
+    <div className="w-full h-full transform scale-130">
+      <textarea
+        id="content"
+        value={content}
+        onChange={handleContentChange}
+        placeholder="input code here"
+        className="flex w-full h-full resize-none outline-none bg-blue-100"
+      />
     </div>
   );
 }

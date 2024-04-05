@@ -10,7 +10,7 @@ export default function Showarea() {
   }));
 
   return (
-    <div className=" w-full h-full">
+    <div className=" w-full h-screen">
       <Tabs tabs={tabs} />
     </div>
   );
