@@ -76,7 +76,7 @@ const Graph: React.FC<GraphProps> = ({ nodes, edges }) => {
                 disabled={true}
                 positionOffset={{ x: `${nodePositions[edge.source].x}px`, y: `${nodePositions[edge.source].y}px` }}
             >
-                <div ref={edgeRefs[index]}>
+                <div className='w-fit h-fit' ref={edgeRefs[index]}>
                     <Edge
                         x1={nodePositions[edge.source].x}
                         y1={nodePositions[edge.source].y}
@@ -88,7 +88,7 @@ const Graph: React.FC<GraphProps> = ({ nodes, edges }) => {
         )
     }
 
-    return <div className='w-full h-full' ref={graphRef} >
+    return <div className='w-full h-full bg-gray-200 zIndex-9' ref={graphRef} >
         {edgeList}
         {nodeList}
     </div>
