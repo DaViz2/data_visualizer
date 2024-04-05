@@ -1,5 +1,24 @@
+'use client'
+import React from 'react';
+import Image from "next/image";
 import { Userarea, Showarea } from './components/components';
 
+import { useState, useEffect } from "react";
+import Graph from "./stage/component/Graph/Graph";
+import Draggable from "react-draggable";
+import DataTable from "./stage/component/Table/Table";
+import ArrayTable from "./stage/component/Table/ArrayTable";
+import './stage/component/Table/table.css';
+import { headers, items } from './stage/component/Table/tablecontents.js';
+
+import testJson from "../data/testgraph.json";
+import testJson2 from "../data/testtable.json";
+
+
+let dat = [
+  [1,2,3,4,5],
+  [6,7,8,9,0]
+  ]
 export default function Home() {
   // <main className="flex h-[100vh] flex-row items-center p-5"></main>
   return (
