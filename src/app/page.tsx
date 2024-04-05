@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import Image from "next/image";
-import { Userarea, Showarea } from './components/components';
+import { Userarea, Showarea, Stage } from './components/components';
 
 import { useState, useEffect } from "react";
 import Graph from "./stage/component/Graph/Graph";
