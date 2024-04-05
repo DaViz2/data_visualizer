@@ -24,7 +24,7 @@ const Graph: React.FC<GraphProps> = ({ nodes, edges }) => {
     const [nodeRendered, setNodeRendered] = useState<boolean>(false);
 
     const nodeList = nodes.map((node) =>
-        <Draggable
+        <Draggable bounds="parent"
             key={node.id}
             nodeRef={nodeRefs[node.id] as React.RefObject<HTMLElement>}
             onDrag={(e, data) => {
@@ -70,7 +70,7 @@ const Graph: React.FC<GraphProps> = ({ nodes, edges }) => {
 
     if (nodeRendered) {
         edgeList = edges.map((edge, index) =>
-            <Draggable
+            <Draggable bounds="parent"
                 key={index}
                 nodeRef={edgeRefs[index] as React.RefObject<HTMLElement>}
                 disabled={true}

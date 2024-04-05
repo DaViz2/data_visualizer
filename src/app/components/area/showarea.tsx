@@ -1,12 +1,11 @@
 import React from 'react';
 import Tabs from '../tab/tabs';
-
 export default function Showarea() {
   const num = 2;
   const tabs = Array.from({ length: num }, (_, i) => ({
     label: `Show${i + 1}`,
     id: i,
-    content: <div>{`Content for Tab ${i + 1}`}</div>,
+    content: <div>Hello, World!</div>,
   }));
 
   return (
