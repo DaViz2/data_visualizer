@@ -1,15 +1,23 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Tabs from '../tab/tabs';
 import Board from './board';
 
 export default function Userarea() {
+  const [code, setCode] = useState('');
+
   const tabs = [
-    { label: 'Code Area', id: 0, content: <Board /> },
+    {
+      label: 'Code Area',
+      id: 0,
+      content: <Board code={code} setCode={setCode} />,
+    },
     { label: 'Blue Print', id: 1, content: <div>Content for Tab 2</div> },
   ];
 
   return (
-    <div className=" w-full h-screen">
+    <div className=" w-full h-screen flex">
       <Tabs tabs={tabs} />
     </div>
   );
