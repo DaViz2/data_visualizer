@@ -2,7 +2,7 @@ import React from 'react';
 import Tabs from '../tab/tabs';
 
 export default function Showarea() {
-  const num = 4;
+  const num = 3;
   const tabs = Array.from({ length: num }, (_, i) => ({
     label: `Show${i + 1}`,
     id: i,
