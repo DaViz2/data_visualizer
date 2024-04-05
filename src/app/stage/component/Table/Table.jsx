@@ -56,38 +56,41 @@ export default function DataTable(
   };
   return (
     <table>
-      {/* <thead>
+      <thead>
         <tr>
           {
-            selectable && 
-            <th>
-              <input 
-                type="checkbox"
-                checked={isSelectedAll()}
-                onChange={onChangeSelectAll}
-              />
-            </th>
+            // selectable && 
+            // <th>
+            //   <input 
+            //     type="checkbox"
+            //     checked={isSelectedAll()}
+            //     onChange={onChangeSelectAll}
+            //   />
+            // </th>
           } 
           {
             headers.map((header) => 
               <th key={header.text}>
-                {header.text} { 컬럼명 바인딩}
+                {header.text} { /*컬럼명 바인딩*/ }
               </th> 
             )
           }
         </tr>
-        </thead> */}
+        </thead>
       <tbody>
         {
           items.map((item, index) => (
             <tr 
               key={index} 
+              
               className={
               `
                 ${selection.has(item[itemKey]) ? 'select_row': ''} 
                 ${item.disabled ? 'disabled_row' : ''}
               `
-            }>
+              }
+            
+            >
               {/* headerKey를 순회하면서 key를 가져옴 */}
               {/* {
                 selectable && 
@@ -102,7 +105,7 @@ export default function DataTable(
               } */}
               { 
                 headerKey.map((key) => 
-                  <td key={key + index}>
+                  <td key={key+index}>
                     {item[key]} {/* key로 객체의 값을 출력 */}
                   </td>
                 )

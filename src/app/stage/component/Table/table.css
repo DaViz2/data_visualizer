@@ -14,20 +14,21 @@ table thead th {
   border-bottom: 1px solid #ddd;
 }
 
+
 table tbody tr td {
-  min-width: 100px;
+  min-width: auto;
   padding: 10px;
   margin: 0;
 }
 
-table tbody tr td:nth-child(1) {
+/* table tbody tr td:nth-child(1) {
   min-width: auto;
-}
+} */
 
-table tbody tr:hover {
+table tbody td:hover {
   background-color: #ddd;
   cursor: pointer;
-}
+} 
 
 .select_row {
   background-color: rgb(240, 240, 240);

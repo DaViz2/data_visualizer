@@ -10,20 +10,21 @@ export const headers = [
     }
   ];
  export const items = [
-    {
-      name: '미다미다',
 
-      birthday: '2000-08-11'
-    },
-    {
-      name: 'midamida',
+  {
+    name: '미다미다',
 
-      birthday: '2014-02'
-    },
-    {
-      name: 'midamida',
+    birthday: '2000-08-11'
+  },
+  {
+    name: 'midamida',
 
-      birthday: '2014-02'
-    },
+    birthday: '2014-02'
+  },
+  {
+    name: 'midamida',
 
+    birthday: '2014-02'
+  }
+  
   ];
