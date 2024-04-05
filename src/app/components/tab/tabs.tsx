@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Tab from './tab';
-// import './tabs.css';
 
 interface TabInfo {
   label: string;
@@ -25,7 +24,7 @@ function Tabs({ tabs }: TabsProps) {
     // <div className="tabs-container">
     // <div className="tabs">
     // <div className="tab-content">Tab {activeTab + 1} is Active</div>
-    <div className="w-full m-auto">
+    <div className="flex flex-col w-full h-full m-auto">
       <div className="flex">
         {tabs.map((tab, index) => (
           <Tab
@@ -36,8 +35,8 @@ function Tabs({ tabs }: TabsProps) {
           />
         ))}
       </div>
-      <div className="border-2 border-white p-20 bg-white h-screen">
-        Tab {activeTab + 1} is Active
+      <div className="border-2 border-white p-20 bg-white flex-grow">
+        {tabs[activeTab].content}
       </div>
     </div>
   );

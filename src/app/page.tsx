@@ -1,4 +1,4 @@
-import { Userarea, Showarea, Board } from './components/components';
+import { Userarea, Showarea } from './components/components';
 
 export default function Home() {
   // <main className="flex h-[100vh] flex-row items-center p-5"></main>

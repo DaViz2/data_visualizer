@@ -19,6 +19,10 @@ const config: Config = {
         yellow: '#FFD700',
         gray: '#808080',
       },
+      scale: {
+        130: '1.35',
+        140: '1.4',
+      },
       // backgroundColor: {
       //  gray: '#000000',
       // },
