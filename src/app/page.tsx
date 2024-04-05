@@ -3,7 +3,7 @@ import React from 'react';
 import Image from "next/image";
 
 import { useState, useEffect } from "react";
-import Graph from "./stage/component/graph/Graph";
+import Graph from "./stage/component/Graph/Graph";
 import Draggable from "react-draggable";
 import DataTable from "./stage/component/Table/Table";
 import './stage/component/Table/table.css';
