@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+table {
+  border: 1px solid #ddd;
+  border-spacing: 0;
+  border-radius: 5px;
+}
+
+th {
+  padding: 10px;
+}
+
+table thead th {
+  border-bottom: 1px solid #ddd;
+}
+
+table tbody tr td {
+  min-width: 100px;
+  padding: 10px;
+  margin: 0;
+}
+
+table tbody tr td:nth-child(1) {
+  min-width: auto;
+}
+
+table tbody tr:hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.select_row {
+  background-color: rgb(240, 240, 240);
+}
+
+table tbody tr.disabled_row:hover {
+  background-color: transparent;
+  cursor: default;
+}
+
+.disabled_row {
+  color: rgb(199, 199, 199);
+}
