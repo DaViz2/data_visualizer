@@ -14,11 +14,10 @@
     "file-saver": "^2.0.5",
     "next": "14.1.4",
     "react": "^18",
-
     "react-dom": "^18",
     "reactflow": "^11.10.4",
-    "react-draggable": "^4.4.6"
-    "react-bootstrap": "^2.10.2",
+    "react-draggable": "^4.4.6",
+    "react-bootstrap": "^2.10.2"
   },
   "devDependencies": {
     "@types/node": "^20",
