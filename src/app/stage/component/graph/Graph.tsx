@@ -24,7 +24,7 @@ const Graph: React.FC<GraphProps> = ({ nodes, edges }) => {
     const [nodeRendered, setNodeRendered] = useState<boolean>(false);
 
     const nodeList = nodes.map((node) =>
-        <Draggable
+        <Draggable bounds="parent"
             key={node.id}
             nodeRef={nodeRefs[node.id] as React.RefObject<HTMLElement>}
             onDrag={(e, data) => {
@@ -70,13 +70,13 @@ const Graph: React.FC<GraphProps> = ({ nodes, edges }) => {
 
     if (nodeRendered) {
         edgeList = edges.map((edge, index) =>
-            <Draggable
+            <Draggable bounds="parent"
                 key={index}
                 nodeRef={edgeRefs[index] as React.RefObject<HTMLElement>}
                 disabled={true}
                 positionOffset={{ x: `${nodePositions[edge.source].x}px`, y: `${nodePositions[edge.source].y}px` }}
             >
-                <div ref={edgeRefs[index]}>
+                <div className='w-fit h-fit' ref={edgeRefs[index]}>
                     <Edge
                         x1={nodePositions[edge.source].x}
                         y1={nodePositions[edge.source].y}
@@ -88,7 +88,7 @@ const Graph: React.FC<GraphProps> = ({ nodes, edges }) => {
         )
     }
 
-    return <div className='w-full h-full' ref={graphRef} >
+    return <div className='w-full h-full bg-gray-200 zIndex-9' ref={graphRef} >
         {edgeList}
         {nodeList}
     </div>

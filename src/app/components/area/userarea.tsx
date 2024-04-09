@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import Tabs from '../tab/tabs';
 import Board from './board';
-
-export default function Userarea() {
+/*
+function Userarea() {
   const [code, setCode] = useState('');
 
   const tabs = [
@@ -22,8 +22,8 @@ export default function Userarea() {
     </div>
   );
 }
+*/
 
-/*
 export default function Userarea() {
   return (
     <div className="flex w-full h-full">
@@ -31,4 +31,4 @@ export default function Userarea() {
     </div>
   );
 }
-*/
+
