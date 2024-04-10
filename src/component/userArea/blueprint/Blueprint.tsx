@@ -11,10 +11,6 @@ import './blueprint.css';
 import 'reactflow/dist/style.css';
 import Sidebar from './Sidebar';
 
-const dndflow = 'flex ' + 'flex-row ' + 'grow-[1] ' + 'h-full ';
-
-const reactflowWrapperStyle = 'flex-grow-1 h-full';
-
 const initialNodes = [
   {
     id: '1',
