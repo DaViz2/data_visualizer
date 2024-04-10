@@ -3,8 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import Draggable from "react-draggable";
 import Node from "./Node";
 import Edge from "./Edge";
-import { EdgeData, NodeData } from "../../../../data/type";
-import { Truculenta } from "next/font/google";
+import { EdgeData, NodeData } from "../../../testData/testDataType"
 
 export interface GraphProps {
     nodes: NodeData[]
@@ -12,12 +11,14 @@ export interface GraphProps {
 }
 
 const Graph: React.FC<GraphProps> = ({ nodes, edges }) => {
-    const graphRef = useRef<HTMLDivElement>(null);
-    const nodeRefs = nodes.reduce((acc, node) => {
-        acc[node.id] = useRef<HTMLDivElement>(null);
-        return acc;
-    }, {} as { [id: number]: React.Ref<HTMLDivElement> })
-    const edgeRefs = edges.map((edge) => useRef<HTMLDivElement>(null));
+    const ref = useRef<HTMLDivElement>(null);
+    const nodeRefs = {} as { [id: number]: React.Ref<HTMLDivElement> }
+
+    // const nodeRefs = nodes.reduce((acc, node) => {
+    //     acc[node.id] = useRef<HTMLDivElement>(null);
+    //     return acc;
+    // }, {} as { [id: number]: React.Ref<HTMLDivElement> })
+    // const edgeRefs = edges.map((edge) => useRef<HTMLDivElement>(null));
 
     const [nodePositions, setNodePositions] = useState<{ [id: number]: { x: number, y: number } }>({});
     const [renderedNodeSize, setRenderedNodeSize] = useState<{ [id: number]: number }>({});
@@ -26,7 +27,7 @@ const Graph: React.FC<GraphProps> = ({ nodes, edges }) => {
     const nodeList = nodes.map((node) =>
         <Draggable bounds="parent"
             key={node.id}
-            nodeRef={nodeRefs[node.id] as React.RefObject<HTMLElement>}
+            nodeRef={ ref as React.RefObject<HTMLElement>}
             onDrag={(e, data) => {
                 const offsetLeft = nodePositions[node.id].x;
                 const offsetTop = nodePositions[node.id].y;
@@ -37,7 +38,7 @@ const Graph: React.FC<GraphProps> = ({ nodes, edges }) => {
                 newNodePositions[node.id] = { x: nextX, y: nextY };
                 setNodePositions(newNodePositions);
             }}>
-            <div ref={nodeRefs[node.id]} className="h-fit w-fit">
+            <div ref={ref} className="h-fit w-fit">
                 <Node value={node.value} />
             </div>
         </Draggable>
@@ -47,15 +48,14 @@ const Graph: React.FC<GraphProps> = ({ nodes, edges }) => {
         const newNodePositions: { [id: number]: { x: number, y: number } } = {}
         const newNodeSizes: { [id: number]: number } = {}
         nodes.forEach((node) => {
-            const nodeRef = nodeRefs[node.id] as React.RefObject<HTMLElement>;
 
-            if (nodeRef.current && graphRef.current) {
-                const NodeSize = nodeRef.current.offsetHeight
+            if (ref.current) {
+                const NodeSize = ref.current.offsetHeight
                 newNodeSizes[node.id] = NodeSize;
 
                 const initialPosition = {
-                    x: nodeRef.current.offsetLeft - graphRef.current.offsetLeft + NodeSize / 2,
-                    y: nodeRef.current.offsetTop - graphRef.current.offsetTop + NodeSize / 2
+                    x: ref.current.offsetLeft - ref.current.offsetLeft + NodeSize / 2,
+                    y: ref.current.offsetTop - ref.current.offsetTop + NodeSize / 2
                 };
                 newNodePositions[node.id] = initialPosition;
             }
@@ -72,11 +72,11 @@ const Graph: React.FC<GraphProps> = ({ nodes, edges }) => {
         edgeList = edges.map((edge, index) =>
             <Draggable bounds="parent"
                 key={index}
-                nodeRef={edgeRefs[index] as React.RefObject<HTMLElement>}
+                nodeRef={ref as React.RefObject<HTMLElement>}
                 disabled={true}
                 positionOffset={{ x: `${nodePositions[edge.source].x}px`, y: `${nodePositions[edge.source].y}px` }}
             >
-                <div className='w-fit h-fit' ref={edgeRefs[index]}>
+                <div className='w-fit h-fit' ref={ref}>
                     <Edge
                         x1={nodePositions[edge.source].x}
                         y1={nodePositions[edge.source].y}
@@ -87,8 +87,9 @@ const Graph: React.FC<GraphProps> = ({ nodes, edges }) => {
             </Draggable>
         )
     }
+    console.log(ref.current?.offsetHeight);
 
-    return <div className='w-full h-full bg-gray-200 zIndex-9' ref={graphRef} >
+    return <div className='w-full h-full bg-gray-200 zIndex-9' ref={ref} >
         {edgeList}
         {nodeList}
     </div>

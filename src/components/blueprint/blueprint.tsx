@@ -1,13 +1,5 @@
-"use client"
-
-const dndflow = 
-  'flex ' +
-  'flex-row ' +
-  'grow-[1] ' +
-  'h-full ';
-
-const reactflowWrapperStyle = 'flex-grow-1 h-full'
-
+import './index.css'
+import 'reactflow/dist/style.css';
 import React, { useState, useRef, useCallback } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
@@ -17,9 +9,15 @@ import ReactFlow, {
   Controls,
   ReactFlowInstance,
 } from 'reactflow';
-import './index.css'
-import 'reactflow/dist/style.css';
 import Sidebar from './Sidebar';
+
+const dndflow = 
+  'flex ' +
+  'flex-row ' +
+  'grow-[1] ' +
+  'h-full ';
+
+const reactflowWrapperStyle = 'flex-grow-1 h-full'
 
 const initialNodes = [
   {

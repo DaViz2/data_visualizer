@@ -1,6 +1,6 @@
 import TabComponent from "./tab";
-import Graph from '@/app/stage/component/Graph/Graph';
-import testgraphdata from '../../data/testgraph.json';
+import Graph from '../stage/component/Graph/Graph';
+import testgraphdata from '../testData/testgraph.json'
 
 export default function Stage() {
   const num = 2;
