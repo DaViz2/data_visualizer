@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { saveAs } from 'file-saver';
-import ExecuteButton from './executebutton';
+import ExecuteButton from './ExectueButton'
 
 interface BoardProps {
   code: string;

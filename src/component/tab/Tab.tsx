@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import React, { useState } from 'react';
 
@@ -22,18 +22,22 @@ const TabComponent: React.FC<TabComponentProps> = ({ tabs }) => {
     <div className="flex flex-col h-full w-full ">
       <div className="flex flex-row">
         {tabs.map((tab, index) => (
-          <button 
+          <button
             key={index}
             onClick={() => handleTabClick(index)}
-            className={(index === activeTab ? 'active ' : '') + "flex pr-3 w-[10rem] h-[2rem]"}
+            className={`${
+              index === activeTab ? 'active ' : ''
+            }flex pr-3 w-[10rem] h-[2rem]`}
           >
-            <div className={`flex ${(index === 0 ? 'bg-[#7D0000] ' : 'bg-black ')} w-full h-full justify-center items-center`}>{tab.title}</div>
+            <div
+              className={`flex ${index === 0 ? 'bg-[#7D0000] ' : 'bg-white '} w-full h-full justify-center items-center`}
+            >
+              {tab.title}
+            </div>
           </button>
         ))}
       </div>
-      <div className="flex h-full w-full">
-        {tabs[activeTab].content}
-      </div>
+      <div className="flex h-full w-full">{tabs[activeTab].content}</div>
     </div>
   );
 };

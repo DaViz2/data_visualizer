@@ -1,5 +1,3 @@
-import './index.css'
-import 'reactflow/dist/style.css';
 import React, { useState, useRef, useCallback } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
@@ -9,15 +7,13 @@ import ReactFlow, {
   Controls,
   ReactFlowInstance,
 } from 'reactflow';
+import './blueprint.css';
+import 'reactflow/dist/style.css';
 import Sidebar from './Sidebar';
 
-const dndflow = 
-  'flex ' +
-  'flex-row ' +
-  'grow-[1] ' +
-  'h-full ';
+const dndflow = 'flex ' + 'flex-row ' + 'grow-[1] ' + 'h-full ';
 
-const reactflowWrapperStyle = 'flex-grow-1 h-full'
+const reactflowWrapperStyle = 'flex-grow-1 h-full';
 
 const initialNodes = [
   {
@@ -25,7 +21,7 @@ const initialNodes = [
     type: 'input',
     data: { label: 'input node' },
     position: { x: 250, y: 5 },
-    style: {fontSize: '1.5rem'}
+    style: { fontSize: '1.5rem' },
   },
 ];
 
@@ -36,7 +32,8 @@ const DnDFlow: React.FC = () => {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance|null>(null);
+  const [reactFlowInstance, setReactFlowInstance] =
+    useState<ReactFlowInstance | null>(null);
 
   const onConnect = useCallback(
     (params: any) => setEdges((eds: any) => addEdge(params, eds)),
@@ -71,7 +68,7 @@ const DnDFlow: React.FC = () => {
         type,
         position: position || { x: 0, y: 0 },
         data: { label: `${type} node` },
-        style: {fontSize: '1.5rem'}
+        style: { fontSize: '1.5rem' },
       };
 
       setNodes((nds: any) => nds.concat(newNode));
@@ -80,11 +77,11 @@ const DnDFlow: React.FC = () => {
   );
 
   return (
-    <div className= {`dndflow relative w-full h-[80%] text-black bg-white`}>
+    <div className="dndflow relative w-full h-[80%] text-black bg-white">
       <ReactFlowProvider>
-      <div className="absolute left-[50%] h-full w-[10px] bg-transparent border-r border-[0px] border-dashed border-gray-500 translate-x-[-50%]"/>
-      <Sidebar />
-        <div className={`w-full h-full`} ref={reactFlowWrapper}>
+        <div className="absolute left-[50%] h-full w-[10px] bg-transparent border-r border-[0px] border-dashed border-gray-500 translate-x-[-50%]" />
+        <Sidebar />
+        <div className="w-full h-full" ref={reactFlowWrapper}>
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -104,12 +101,12 @@ const DnDFlow: React.FC = () => {
   );
 };
 
-const Blueprint = () => {
+function Blueprint() {
   return (
     <div className="flex items-center justify-center h-full w-full p-3 bg-black">
-      <DnDFlow/>
+      <DnDFlow />
     </div>
   );
-};
+}
 
 export default Blueprint;
