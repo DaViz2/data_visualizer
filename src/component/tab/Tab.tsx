@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState } from 'react';
 
 interface Tab {
@@ -11,7 +9,7 @@ interface TabComponentProps {
   tabs: Tab[];
 }
 
-const TabComponent: React.FC<TabComponentProps> = ({ tabs }) => {
+function TabComponent({ tabs }: TabComponentProps): JSX.Element {
   const [activeTab, setActiveTab] = useState<number>(0);
 
   const handleTabClick = (index: number) => {
@@ -23,8 +21,10 @@ const TabComponent: React.FC<TabComponentProps> = ({ tabs }) => {
       <div className="flex flex-row">
         {tabs.map((tab, index) => (
           <button
+            // eslint-disable-next-line react/no-array-index-key
             key={index}
             onClick={() => handleTabClick(index)}
+            type="button"
             className={`${
               index === activeTab ? 'active ' : ''
             }flex pr-3 w-[10rem] h-[2rem]`}
@@ -40,6 +40,6 @@ const TabComponent: React.FC<TabComponentProps> = ({ tabs }) => {
       <div className="flex h-full w-full">{tabs[activeTab].content}</div>
     </div>
   );
-};
+}
 
 export default TabComponent;

@@ -9,8 +9,10 @@
 		"editor.tabSize": 2,
 		"eslint.format.enable": true,
 		"editor.codeActionsOnSave": {
-			"source.fixAll.eslint": "true"
+			"source.fixAll.eslint": "always"
 		},
-		"files.eol": "\n"
+		"files.eol": "\n",
+		"editor.defaultFormatter": "dbaeumer.vscode-eslint",
+		"editor.formatOnSave": true
 	}
 }

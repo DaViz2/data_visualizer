@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState, useRef } from 'react';
 import Draggable from 'react-draggable';
 import Node from './Node';
@@ -55,14 +54,9 @@ function Graph({ nodes, edges }: GraphProps) {
       const nodeRef = nodeRefs[node.id] as React.RefObject<HTMLElement>;
 
       if (nodeRef.current && graphRef.current) {
-
         const initialPosition = {
-          x:
-            nodeRef.current.offsetLeft -
-            graphRef.current.offsetLeft,
-          y:
-            nodeRef.current.offsetTop -
-            graphRef.current.offsetTop
+          x: nodeRef.current.offsetLeft - graphRef.current.offsetLeft,
+          y: nodeRef.current.offsetTop - graphRef.current.offsetTop,
         };
         newNodePositions[node.id] = initialPosition;
       }

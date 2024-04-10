@@ -1,8 +1,6 @@
-'use client';
-
 import React from 'react';
 import { saveAs } from 'file-saver';
-import ExecuteButton from './ExectueButton'
+import ExecuteButton from './ExectueButton';
 
 interface BoardProps {
   code: string;

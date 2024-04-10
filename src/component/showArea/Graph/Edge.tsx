@@ -5,7 +5,7 @@ interface EdgeProps {
   y1: number;
   x2: number;
   y2: number;
-  radius: number;
+  radius?: number;
 }
 
 function calculateLine(x1: number, y1: number, x2: number, y2: number) {
@@ -24,8 +24,8 @@ function Edge({ x1, y1, x2, y2, radius }: EdgeProps) {
     <div
       className="absolute bg-gray-500 h-1 origin-top-left"
       style={{
-        left: `${radius / 2}px`,
-        top: `${radius / 2}px`,
+        left: `${(radius ?? 0) / 2}px`,
+        top: `${(radius ?? 0) / 2}px`,
         width: `${length}px`,
         transform: `rotate(${angle}deg)`,
       }}

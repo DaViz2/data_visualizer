@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Graph from './Graph/Graph';
 import TabComponent from '../tab/Tab';

@@ -1,8 +1,5 @@
 import React from 'react';
-import Graph from '../component/showArea/Graph/Graph';
-import testGraph from '../assets/testData/testgraph.json';
 import { Showarea, Userarea } from '../component/components';
-
 
 export default function Home() {
   return (
