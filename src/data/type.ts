@@ -1,9 +1,9 @@
 export interface NodeData {
-  id: number
-  value: string | number | null
+  id: number;
+  value: string | number | null;
 }
 
 export interface EdgeData {
-  source: number
-  target: number
+  source: number;
+  target: number;
 }

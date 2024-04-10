@@ -1,51 +1,24 @@
 import React from 'react';
-import Tabs from '../tab/tabs';
+import Graph from '@/app/stage/component/Graph/Graph';
+import TabComponent from '../tab/tab';
+import testgraphdata from '../../../data/testgraph.json';
+
 export default function Showarea() {
-  const num = 2;
+  const num = 3;
   const tabs = Array.from({ length: num }, (_, i) => ({
-    label: `Show${i + 1}`,
-    id: i,
-    content: <div>Hello, World!</div>,
+    title: `Show${i + 1}`,
+    content: (
+      <div className="relative h-full w-full">
+        <Graph nodes={testgraphdata.nodes} edges={testgraphdata.edges} />
+      </div>
+    ),
   }));
 
   return (
-    <div className=" w-full h-screen">
-      <Tabs tabs={tabs} />
-    </div>
-  );
-}
-
-/*
-import TabComponent from './tabs';
-
-export default function Showarea() {
-  const tabs = [
-    { title: 'Show1', content: <div>Content for Tab 1</div> },
-    { title: 'Show2', content: <div>Content for Tab 2</div> },
-  ];
-
-  return (
     <div className="flex w-full h-full">
-      <TabComponent tabs={tabs} />
+      <div className="flex grow-[1] h-[100%] flex-col items-center p-2 bg-slate-100">
+        <TabComponent tabs={tabs} />
+      </div>
     </div>
   );
 }
-
-
-import React from 'react';
-import Tabs from '../tab/tabs';
-
-export default function Showarea() {
-  const tabs = [
-    { label: 'Show1', id: 0, content: <div>Content for Tab 1</div> },
-    { label: 'Show2', id: 1, content: <div>Content for Tab 2</div> },
-    { label: 'Show3', id: 2, content: <div>Content for Tab 3</div> },
-  ];
-
-  return (
-    <div className=" w-full h-full">
-      <Tabs tabs={tabs} />
-    </div>
-  );
-}
-*/
