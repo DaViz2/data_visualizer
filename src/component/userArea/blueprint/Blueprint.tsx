@@ -6,6 +6,9 @@ import ReactFlow, {
   useEdgesState,
   Controls,
   ReactFlowInstance,
+  Connection,
+  Edge,
+  Node,
 } from 'reactflow';
 import './blueprint.css';
 import 'reactflow/dist/style.css';
@@ -21,10 +24,13 @@ const initialNodes = [
   },
 ];
 
-let id = 0;
-const getId = () => `dndnode_${id++}`;
+let id = -1;
+const getId = () => {
+  id += 1;
+  return `dndnode_${id}`;
+};
 
-const DnDFlow: React.FC = () => {
+function DnDFlow() {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -32,12 +38,13 @@ const DnDFlow: React.FC = () => {
     useState<ReactFlowInstance | null>(null);
 
   const onConnect = useCallback(
-    (params: any) => setEdges((eds: any) => addEdge(params, eds)),
+    (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
     [],
   );
 
   const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+    // eslint-disable-next-line no-param-reassign
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
@@ -67,7 +74,9 @@ const DnDFlow: React.FC = () => {
         style: { fontSize: '1.5rem' },
       };
 
-      setNodes((nds: any) => nds.concat(newNode));
+      setNodes((nds: Node<{ label: string }, string | undefined>[]) =>
+        nds.concat(newNode),
+      );
     },
     [reactFlowInstance],
   );
@@ -95,7 +104,7 @@ const DnDFlow: React.FC = () => {
       </ReactFlowProvider>
     </div>
   );
-};
+}
 
 function Blueprint() {
   return (
