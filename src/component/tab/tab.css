@@ -1,0 +1,11 @@
+.activeContent{
+    display: flex;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.inactiveContent{
+    display: none;
+    position: absolute;
+}

@@ -22,11 +22,11 @@ interface CustomNodeProps {
 
 function StructureNode({ isConnectable }: CustomNodeProps) {
   return (
-    <div className="text-updater-node">
-      <div>HELLOOOO</div>
+    <div className="structure-node">
+      <div>Structure name</div>
       <Handle
         type="target"
-        position={Position.Right}
+        position={Position.Left}
         id="b"
         isConnectable={isConnectable}
       />
@@ -36,11 +36,11 @@ function StructureNode({ isConnectable }: CustomNodeProps) {
 
 function VarNode({ isConnectable }: CustomNodeProps) {
   return (
-    <div className="text-updater-node">
-      <div>HELLOOOO</div>
+    <div className="var-node">
+      <div>Var name</div>
       <Handle
         type="source"
-        position={Position.Left}
+        position={Position.Right}
         id="b"
         isConnectable={isConnectable}
       />
@@ -98,7 +98,11 @@ function DnDFlow() {
         type,
         position: position || { x: 0, y: 0 },
         data: { label: `${type} node` },
-        style: { fontSize: '0.5rem', height: '2rem', width: '5rem' },
+        style: {
+          fontSize: '0.5rem',
+          height: '2rem',
+          width: '5rem',
+        },
       };
 
       setNodes((nds: Node<{ label: string }, string | undefined>[]) =>
@@ -111,25 +115,24 @@ function DnDFlow() {
   return (
     <div className="dndflow relative w-full h-[80%] text-black bg-white">
       <ReactFlowProvider>
-        <div className="absolute left-[50%] h-full w-[10px] bg-transparent border-r border-[0px] border-dashed border-gray-500 translate-x-[-50%]" />
         <div
           style={{
             position: 'absolute',
             top: 0,
-            right: 0,
+            left: 0,
             width: '25%',
             height: '25%',
             zIndex: 9,
             backgroundColor: '#ccc',
           }}
         >
-          <Sidebar nodes={[{ nodeName: 'Graph', nodeType: 'varNode' }]} />
+          <Sidebar nodes={[{ nodeName: 'Var', nodeType: 'varNode' }]} />
         </div>
         <div
           style={{
             position: 'absolute',
             top: 0,
-            left: 0,
+            right: 0,
             width: '25%',
             height: '25%',
             zIndex: 9,

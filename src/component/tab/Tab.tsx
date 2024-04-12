@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './tab.css';
 
 interface Tab {
   title: string;
@@ -37,7 +38,15 @@ function TabComponent({ tabs }: TabComponentProps): JSX.Element {
           </button>
         ))}
       </div>
-      <div className="flex h-full w-full">{tabs[activeTab].content}</div>
+      <div className="flex relative h-full w-full">
+        {tabs.map((tab, index) => (
+          <div
+            className={`${index === activeTab ? 'activeContent' : 'inactiveContent'}`}
+          >
+            {tab.content}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

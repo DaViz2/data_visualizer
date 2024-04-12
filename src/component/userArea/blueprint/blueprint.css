@@ -56,16 +56,30 @@
   }
 }
 
-.text-updater-node {
+.var-node {
   height: 50px;
-  border: 1px solid #eee;
+  border: 1px solid #1e00ff;
   padding: 5px;
   border-radius: 5px;
   background: white;
 }
 
-.text-updater-node label {
+.var-node label {
   display: block;
-  color: #777;
+  color: #000cf4;
+  font-size: 12px;
+}
+
+.structure-node {
+  height: 50px;
+  border: 1px solid #ff0000;
+  padding: 5px;
+  border-radius: 5px;
+  background: white;
+}
+
+.structure-node label {
+  display: block;
+  color: #ff0202;
   font-size: 12px;
 }
