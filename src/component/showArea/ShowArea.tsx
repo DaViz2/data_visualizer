@@ -9,7 +9,16 @@ export default function Showarea() {
     title: `Show${i + 1}`,
     content: (
       <div className="relative h-full w-full">
-        <Graph nodes={testGraphData.nodes} edges={testGraphData.edges} />
+        <div
+          style={{
+            height: '100%',
+            width: '100%',
+            paddingRight: '80px',
+            paddingBottom: '80px',
+          }}
+        >
+          <Graph nodes={testGraphData.nodes} edges={testGraphData.edges} />
+        </div>
       </div>
     ),
   }));

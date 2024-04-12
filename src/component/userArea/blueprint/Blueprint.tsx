@@ -4,25 +4,41 @@ import ReactFlow, {
   addEdge,
   useNodesState,
   useEdgesState,
-  Controls,
   ReactFlowInstance,
   Connection,
   Edge,
   Node,
+  NodeTypes,
+  Position,
+  Handle,
 } from 'reactflow';
 import './blueprint.css';
 import 'reactflow/dist/style.css';
 import Sidebar from './Sidebar';
 
-const initialNodes = [
-  {
-    id: '1',
-    type: 'input',
-    data: { label: 'input node' },
-    position: { x: 250, y: 5 },
-    style: { fontSize: '1.5rem' },
-  },
-];
+interface CustomNodeProps {
+  isConnectable: boolean;
+}
+
+function CustomNode({ isConnectable }: CustomNodeProps) {
+  return (
+    <div className="text-updater-node">
+      <div>HELLOOOO</div>
+      <Handle
+        type="source"
+        position={Position.Left}
+        id="b"
+        isConnectable={isConnectable}
+      />
+    </div>
+  );
+}
+
+const nodeTypes: NodeTypes = {
+  custom: CustomNode,
+};
+
+const initialNodes: Node<{ label: string }, string | undefined>[] = [];
 
 let id = -1;
 const getId = () => {
@@ -58,10 +74,6 @@ function DnDFlow() {
       if (typeof type === 'undefined' || !type) {
         return;
       }
-
-      // reactFlowInstance.project was renamed to reactFlowInstance.screenToFlowPosition
-      // and you don't need to subtract the reactFlowBounds.left/top anymore
-      // details: https://reactflow.dev/whats-new/2023-11-10
       const position = reactFlowInstance?.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
@@ -96,10 +108,11 @@ function DnDFlow() {
             onInit={setReactFlowInstance}
             onDrop={onDrop}
             onDragOver={onDragOver}
+            nodeTypes={nodeTypes}
+            panOnDrag={false}
+            panOnScroll={false}
             fitView
-          >
-            <Controls />
-          </ReactFlow>
+          />
         </div>
       </ReactFlowProvider>
     </div>
