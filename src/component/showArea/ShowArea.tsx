@@ -1,23 +1,26 @@
-import React from 'react';
-import Graph from './Graph/Graph';
+import React, { useRef } from 'react';
+// import Graph from './Graph/Graph';
 import TabComponent from '../tab/Tab';
-import testGraphData from '../../assets/testData/testgraph.json';
+// import testGraphData from '../../assets/testData/testgraph.json';
+import ForceGraph from './Graph/ForceGraph';
 
 export default function Showarea() {
+  const ref = useRef<HTMLDivElement>(null);
+
   const num = 3;
   const tabs = Array.from({ length: num }, (_, i) => ({
     title: `Show${i + 1}`,
     content: (
       <div className="relative h-full w-full">
         <div
+          ref={ref}
           style={{
             height: '100%',
             width: '100%',
-            paddingRight: '80px',
-            paddingBottom: '80px',
           }}
         >
-          <Graph nodes={testGraphData.nodes} edges={testGraphData.edges} />
+          {/* <Graph nodes={testGraphData.nodes} edges={testGraphData.edges} /> */}
+          <ForceGraph />
         </div>
       </div>
     ),
