@@ -22,6 +22,7 @@
         "singleQuote": true
       }
     ],
+    "react/react-in-jsx-scope": "off",
     "no-undef": "off",
     "react/jsx-filename-extension": [
       0,

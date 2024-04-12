@@ -4,7 +4,7 @@ interface SaveButtonProps {
   handleExecute: () => void;
 }
 
-function ExecuteButton({ handleExecute }: SaveButtonProps): JSX.Element {
+function Button({ handleExecute }: SaveButtonProps): JSX.Element {
   return (
     <button
       type="button"
@@ -16,4 +16,4 @@ function ExecuteButton({ handleExecute }: SaveButtonProps): JSX.Element {
   );
 }
 
-export default ExecuteButton;
+export default Button;
