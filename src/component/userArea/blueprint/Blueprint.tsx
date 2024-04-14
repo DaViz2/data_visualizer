@@ -68,10 +68,14 @@ function DnDFlow() {
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance | null>(null);
 
-  const onConnect = useCallback(
-    (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
-    [],
-  );
+  const onConnect = useCallback((params: Edge | Connection) => {
+    const localEdges: Connection[] = JSON.parse(
+      localStorage.getItem('edges') || '[]',
+    );
+    localEdges.push(params as Connection);
+    localStorage.setItem('edges', JSON.stringify(localEdges));
+    return setEdges((eds) => addEdge(params, eds));
+  }, []);
 
   const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -111,7 +115,6 @@ function DnDFlow() {
     },
     [reactFlowInstance],
   );
-
   return (
     <div className="dndflow relative w-full h-[80%] text-black bg-white">
       <ReactFlowProvider>
@@ -126,7 +129,9 @@ function DnDFlow() {
             backgroundColor: '#ccc',
           }}
         >
-          <Sidebar nodes={[{ nodeName: 'Var', nodeType: 'varNode' }]} />
+          <Sidebar
+            nodes={[{ nodeId: '1', nodeName: 'Var', nodeType: 'varNode' }]}
+          />
         </div>
         <div
           style={{
@@ -139,7 +144,12 @@ function DnDFlow() {
             backgroundColor: '#ccc',
           }}
         >
-          <Sidebar nodes={[{ nodeName: 'Graph', nodeType: 'structureNode' }]} />
+          <Sidebar
+            nodes={[
+              { nodeId: '1', nodeName: 'Graph', nodeType: 'structureNode' },
+              { nodeId: '2', nodeName: 'Table', nodeType: 'structureNode' },
+            ]}
+          />
         </div>
         <div className="w-full h-full" ref={reactFlowWrapper}>
           <ReactFlow
@@ -152,7 +162,6 @@ function DnDFlow() {
             onDrop={onDrop}
             onDragOver={onDragOver}
             nodeTypes={nodeTypes}
-            panOnDrag={false}
             panOnScroll={false}
             fitView
           />

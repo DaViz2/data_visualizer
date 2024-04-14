@@ -1,6 +1,4 @@
 import React from 'react';
-// import { saveAs } from 'file-saver';
-// import Button from './Button';
 
 interface BoardProps {
   code: string;
@@ -25,13 +23,6 @@ function Board({ code, setCode }: BoardProps) {
       }, 0);
     }
   };
-  /*
-  const handleSaveToFile = () => {
-    const blob = new Blob([code], { type: 'application/json;charset=utf-8' });
-    saveAs(blob, 'code.json');
-  };
-  */
-  // <Button handleExecute={handleSaveToFile} />
   return (
     <div className="w-full h-full transform scale-130">
       <textarea

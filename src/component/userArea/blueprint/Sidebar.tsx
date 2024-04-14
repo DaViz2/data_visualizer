@@ -2,6 +2,7 @@ import React from 'react';
 import './blueprint.css';
 
 interface NodeProp {
+  nodeId: string;
   nodeName: string;
   nodeType: string;
 }
@@ -25,6 +26,8 @@ function Sidebar({ nodes }: SidebarProp) {
     <div>
       {nodes.map((node) => (
         <div
+          // eslint-disable-next-line react/no-array-index-key
+          key={node.nodeId}
           className="dndnode"
           onDragStart={(event) => onDragStart(event, node.nodeType)}
           draggable

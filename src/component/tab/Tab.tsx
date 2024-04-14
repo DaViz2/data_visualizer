@@ -41,6 +41,8 @@ function TabComponent({ tabs }: TabComponentProps): JSX.Element {
       <div className="flex relative h-full w-full">
         {tabs.map((tab, index) => (
           <div
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
             className={`${index === activeTab ? 'activeContent' : 'inactiveContent'}`}
           >
             {tab.content}
