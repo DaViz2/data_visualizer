@@ -20,7 +20,7 @@ export default function Showarea() {
 
   return (
     <div className="flex w-full h-full">
-      <div className="flex grow-[1] h-[100%] flex-col items-center p-2 bg-slate-100">
+      <div className="flex w-full h-[100%] flex-col items-center p-2 bg-slate-100">
         <TabComponent tabs={tabs} />
       </div>
     </div>
