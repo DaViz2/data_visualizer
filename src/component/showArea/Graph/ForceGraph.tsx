@@ -1,10 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ForceGraph2D } from 'react-force-graph';
+
+interface Dimensions {
+  width: number;
+  height: number;
+}
 
 function ForceGraph() {
   const ref = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
+  const [dimensions, setDimensions] = useState<Dimensions>({
+    width: 0,
+    height: 0,
+  });
 
   const arr = Array.from({ length: 10 }, (_, i) => i + 1);
   const nodes = arr.map((i) => ({ id: `${i}`, name: `${i}`, val: 10 }));
@@ -16,27 +23,25 @@ function ForceGraph() {
   };
 
   useEffect(() => {
-    const handleResize = () => {
-      if (ref.current) {
-        setWidth(ref.current.offsetWidth);
-        setHeight(ref.current.offsetHeight);
-        console.log(width, height);
+    const resizeObserver = new ResizeObserver((entries) => {
+      if (entries[0].target) {
+        const { width, height } = entries[0].contentRect;
+        setDimensions({ width, height });
       }
-    };
+    });
+    if (ref.current) {
+      resizeObserver.observe(ref.current);
+    }
 
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  });
-  console.log(width, height);
+    return () => resizeObserver.disconnect();
+  }, []);
 
   return (
-    <div className="h-full w-full paddig-0 flex justify-center" ref={ref}>
+    <div ref={ref} className="h-full w-full">
       <ForceGraph2D
-        backgroundColor="black"
-        width={width}
-        height={height}
         graphData={data}
+        width={dimensions.width}
+        height={dimensions.height}
         nodeCanvasObjectMode={() => 'after'}
         nodeCanvasObject={(node, ctx, globalScale) => {
           const label = node.id;

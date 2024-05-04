@@ -12,14 +12,7 @@ export default function Showarea() {
     title: `Show${i + 1}`,
     content: (
       <div className="relative h-full w-full">
-        <div
-          ref={ref}
-          style={{
-            height: '100%',
-            width: '100%',
-          }}
-        >
-          {/* <Graph nodes={testGraphData.nodes} edges={testGraphData.edges} /> */}
+        <div className="border-black border-2 h-full w-full" ref={ref}>
           <ForceGraph />
         </div>
       </div>
