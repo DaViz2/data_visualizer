@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
-// import Graph from './Graph/Graph';
 import TabComponent from '../tab/Tab';
-// import testGraphData from '../../assets/testData/testgraph.json';
-import ForceGraph from './Graph/ForceGraph';
+import Graph from './Graph/Graph';
+import testGraphData from '../../assets/testData/testgraph.json';
 
 export default function Showarea() {
   const ref = useRef<HTMLDivElement>(null);
@@ -13,7 +12,7 @@ export default function Showarea() {
     content: (
       <div className="relative h-full w-full">
         <div className="border-black border-2 h-full w-full" ref={ref}>
-          <ForceGraph />
+          <Graph nodes={testGraphData.nodes} links={testGraphData.edges} />
         </div>
       </div>
     ),

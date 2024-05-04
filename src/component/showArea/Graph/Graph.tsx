@@ -1,102 +1,85 @@
-import React, { useEffect, useState, useRef } from 'react';
-import Draggable from 'react-draggable';
-import Node from './Node';
-import Edge from './Edge';
-import { EdgeData, NodeData } from '../../../assets/testData/testDataType';
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+import React, { useEffect, useRef, useState } from 'react';
+import { ForceGraph2D } from 'react-force-graph';
+import { NodeData, LinkData } from '../../../assets/testData/testDataType';
 
-export interface GraphProps {
-  nodes: NodeData[];
-  edges: EdgeData[];
+interface Dimensions {
+  width: number;
+  height: number;
 }
 
-function Graph({ nodes, edges }: GraphProps) {
-  const graphRef = useRef<HTMLDivElement>(null);
-  const nodeRefs = nodes.reduce(
-    (acc, node) => {
-      acc[node.id] = useRef<HTMLDivElement>(null);
-      return acc;
-    },
-    {} as { [id: number]: React.Ref<HTMLDivElement> },
-  );
-  const edgeRefs = edges.map(() => useRef<HTMLDivElement>(null));
+interface GraphProps {
+  nodes: NodeData[];
+  links: LinkData[];
+}
 
-  const [nodePositions, setNodePositions] = useState<{
-    [id: number]: { x: number; y: number };
-  }>({});
+function Graph({ nodes, links }: GraphProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const fgRef = useRef<any>(null);
 
-  const [nodeRendered, setNodeRendered] = useState<boolean>(false);
+  const [dimensions, setDimensions] = useState<Dimensions>({
+    width: 0,
+    height: 0,
+  });
 
-  const nodeList = nodes.map((node) => (
-    <Draggable
-      bounds="parent"
-      key={node.id}
-      nodeRef={nodeRefs[node.id] as React.RefObject<HTMLElement>}
-      onDrag={(e, data) => {
-        const offsetLeft = nodePositions[node.id].x;
-        const offsetTop = nodePositions[node.id].y;
-        const nextX = offsetLeft + data.deltaX;
-        const nextY = offsetTop + data.deltaY;
-
-        const newNodePositions = { ...nodePositions };
-        newNodePositions[node.id] = { x: nextX, y: nextY };
-        setNodePositions(newNodePositions);
-      }}
-    >
-      <div ref={nodeRefs[node.id]} className="h-fit w-fit">
-        <Node value={node.value} />
-      </div>
-    </Draggable>
-  ));
+  const data = {
+    nodes: nodes.map((node) => ({
+      id: node.id,
+      name: node.name,
+      val: 12,
+    })),
+    links,
+  };
 
   useEffect(() => {
-    const newNodePositions: { [id: number]: { x: number; y: number } } = {};
-    nodes.forEach((node) => {
-      const nodeRef = nodeRefs[node.id] as React.RefObject<HTMLElement>;
-
-      if (nodeRef.current && graphRef.current) {
-        const initialPosition = {
-          x: nodeRef.current.offsetLeft - graphRef.current.offsetLeft,
-          y: nodeRef.current.offsetTop - graphRef.current.offsetTop,
-        };
-        newNodePositions[node.id] = initialPosition;
+    const resizeObserver = new ResizeObserver((entries) => {
+      if (entries[0].target) {
+        const { width, height } = entries[0].contentRect;
+        if (width !== dimensions.width || height !== dimensions.height) {
+          setDimensions({ width, height });
+        }
       }
     });
-    setNodePositions(newNodePositions);
+    if (ref.current) {
+      resizeObserver.observe(ref.current);
+    }
 
-    setNodeRendered(true);
+    return () => resizeObserver.disconnect();
   }, []);
 
-  let edgeList: JSX.Element[] = [];
-
-  if (nodeRendered) {
-    edgeList = edges.map((edge, index) => (
-      <Draggable
-        bounds="parent"
-        // eslint-disable-next-line react/no-array-index-key
-        key={index}
-        nodeRef={edgeRefs[index] as React.RefObject<HTMLElement>}
-        disabled
-        positionOffset={{
-          x: `${nodePositions[edge.source].x}px`,
-          y: `${nodePositions[edge.source].y}px`,
-        }}
-      >
-        <div className="w-fit h-fit" ref={edgeRefs[index]}>
-          <Edge
-            x1={nodePositions[edge.source].x}
-            y1={nodePositions[edge.source].y}
-            x2={nodePositions[edge.target].x}
-            y2={nodePositions[edge.target].y}
-          />
-        </div>
-      </Draggable>
-    ));
-  }
-
   return (
-    <div className="w-full h-full bg-gray-200 zIndex-9" ref={graphRef}>
-      {edgeList}
-      {nodeList}
+    <div ref={ref} className="h-full w-full">
+      <ForceGraph2D
+        ref={fgRef}
+        graphData={data}
+        width={dimensions.width}
+        height={dimensions.height}
+        nodeCanvasObjectMode={() => 'after'}
+        nodeCanvasObject={(node, ctx, globalScale) => {
+          const label = node.name;
+          const fontSize = 12 / globalScale;
+          ctx.font = `${fontSize}px Sans-Serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = 'black';
+          ctx.fillText(label, node.x as number, node.y as number);
+        }}
+        onNodeHover={(node, previousNode) => {
+          if (node) {
+            // eslint-disable-next-line no-param-reassign
+            node.val *= 2;
+          }
+
+          if (previousNode) {
+            // eslint-disable-next-line no-param-reassign
+            previousNode.val /= 2;
+          }
+        }}
+        onBackgroundRightClick={() => {
+          fgRef.current.zoomToFit();
+        }}
+      />
     </div>
   );
 }
