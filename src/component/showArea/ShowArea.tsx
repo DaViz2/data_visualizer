@@ -11,7 +11,7 @@ export default function Showarea() {
     title: `Show${i + 1}`,
     content: (
       <div className="relative h-full w-full">
-        <div className="border-black border-2 h-full w-full" ref={ref}>
+        <div className="h-full w-full" ref={ref}>
           <Graph nodes={testGraphData.nodes} links={testGraphData.edges} />
         </div>
       </div>

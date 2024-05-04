@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { ForceGraph2D } from 'react-force-graph';
 import { NodeData, LinkData } from '../../../assets/testData/testDataType';
 
@@ -17,7 +17,7 @@ function Graph({ nodes, links }: GraphProps) {
   const ref = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const fgRef = useRef<any>(null);
-
+  const [rendered, setRendered] = useState<boolean>(false);
   const [dimensions, setDimensions] = useState<Dimensions>({
     width: 0,
     height: 0,
@@ -33,23 +33,26 @@ function Graph({ nodes, links }: GraphProps) {
   };
 
   useEffect(() => {
-    const resizeObserver = new ResizeObserver((entries) => {
-      if (entries[0].target) {
-        const { width, height } = entries[0].contentRect;
-        if (width !== dimensions.width || height !== dimensions.height) {
-          setDimensions({ width, height });
-        }
-      }
-    });
     if (ref.current) {
-      resizeObserver.observe(ref.current);
+      setDimensions({
+        width: ref.current.clientWidth,
+        height: ref.current.clientHeight,
+      });
     }
 
-    return () => resizeObserver.disconnect();
+    setRendered(true);
   }, []);
 
   return (
-    <div ref={ref} className="h-full w-full overflow-hidden">
+    <div
+      ref={ref}
+      className="h-full w-full overflow-hidden box-border bg-white border-2 border-black"
+      style={
+        rendered
+          ? { maxWidth: dimensions.width, maxHeight: dimensions.height }
+          : {}
+      }
+    >
       <ForceGraph2D
         ref={fgRef}
         graphData={data}
