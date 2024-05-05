@@ -1,10 +1,16 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
+import Draggable from 'react-draggable';
 import {
   useReactTable,
   ColumnDef,
   getCoreRowModel,
   flexRender,
 } from '@tanstack/react-table';
+
+interface Dimensions {
+  width: number;
+  height: number;
+}
 
 // 프로퍼티 타입 정의
 interface TableFromMultiArrayProps {
@@ -32,6 +38,26 @@ function createColumnsFromArray(data: number[][]): ColumnDef<number[]>[] {
 
 // TableFromMultiArray 컴포넌트
 function ArrayTable({ data }: TableFromMultiArrayProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const fgRef = useRef<any>(null);
+  const [rendered, setRendered] = useState<boolean>(false);
+  const [dimensions, setDimensions] = useState<Dimensions>({
+    width: 0,
+    height: 0,
+  });
+  
+  useEffect(() => {
+    if (ref.current) {
+      setDimensions({
+        width: ref.current.clientWidth,
+        height: ref.current.clientHeight,
+      });
+    }
+
+    setRendered(true);
+  }, []);
+
   // 데이터와 컬럼 메모이제이션
   const memoizedColumns = useMemo(() => createColumnsFromArray(data), [data]);
   const memoizedData = useMemo(() => data, [data]);
@@ -44,7 +70,17 @@ function ArrayTable({ data }: TableFromMultiArrayProps) {
   });
 
   return (
-    <div>
+    
+    <div
+      ref={ref}
+      className="h-full w-full overflow-hidden box-border bg-white border-2 border-black"
+      style={
+        rendered
+          ? { maxWidth: dimensions.width, maxHeight: dimensions.height }
+          : {}
+      }
+    >
+      <Draggable>
       <table>
         <tbody className="bg-white divide-x divide-gray-200 divide-y divide-gray-200">
           {table.getRowModel().rows.map((row) => (
@@ -61,6 +97,7 @@ function ArrayTable({ data }: TableFromMultiArrayProps) {
           ))}
         </tbody>
       </table>
+      </Draggable>
     </div>
   );
 }
