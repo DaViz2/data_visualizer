@@ -12,6 +12,7 @@
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.6",
+    "react-force-graph": "^1.44.3",
     "react-scripts": "^5.0.1",
     "react-split-pane": "^0.1.92",
     "reactflow": "^11.10.4",

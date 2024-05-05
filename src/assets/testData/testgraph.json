@@ -2,43 +2,43 @@
   "nodes": [
     {
       "id": 1,
-      "value": "A"
+      "name": "A"
     },
     {
       "id": 2,
-      "value": "B"
+      "name": "B"
     },
     {
       "id": 3,
-      "value": "C"
+      "name": "C"
     },
     {
       "id": 4,
-      "value": "D"
+      "name": "D"
     },
     {
       "id": 5,
-      "value": "E"
+      "name": "E"
     },
     {
       "id": 6,
-      "value": "F"
+      "name": "F"
     },
     {
       "id": 7,
-      "value": "G"
+      "name": "G"
     },
     {
       "id": 8,
-      "value": "H"
+      "name": "H"
     },
     {
       "id": 9,
-      "value": "I"
+      "name": "I"
     },
     {
       "id": 10,
-      "value": "J"
+      "name": "J"
     }
   ],
   "edges": [
