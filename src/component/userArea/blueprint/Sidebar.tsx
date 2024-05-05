@@ -1,7 +1,17 @@
 import React from 'react';
 import './blueprint.css';
 
-function Sidebar() {
+interface NodeProp {
+  nodeId: string;
+  nodeName: string;
+  nodeType: string;
+}
+
+interface SidebarProp {
+  nodes: NodeProp[];
+}
+
+function Sidebar({ nodes }: SidebarProp) {
   const onDragStart = (
     event: React.DragEvent<HTMLDivElement>,
     nodeType: string,
@@ -13,38 +23,18 @@ function Sidebar() {
   };
 
   return (
-    <div
-      style={{
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        width: '25%',
-        height: '25%',
-        zIndex: 9,
-        backgroundColor: '#ccc',
-      }}
-    >
-      <div
-        className="dndnode input"
-        onDragStart={(event) => onDragStart(event, 'input')}
-        draggable
-      >
-        Input Node
-      </div>
-      <div
-        className="dndnode"
-        onDragStart={(event) => onDragStart(event, 'custom')}
-        draggable
-      >
-        Default Node
-      </div>
-      <div
-        className="dndnode output"
-        onDragStart={(event) => onDragStart(event, 'output')}
-        draggable
-      >
-        Output Node
-      </div>
+    <div>
+      {nodes.map((node) => (
+        <div
+          // eslint-disable-next-line react/no-array-index-key
+          key={node.nodeId}
+          className="dndnode"
+          onDragStart={(event) => onDragStart(event, node.nodeType)}
+          draggable
+        >
+          {node.nodeName}
+        </div>
+      ))}
     </div>
   );
 }

@@ -20,12 +20,12 @@ interface CustomNodeProps {
   isConnectable: boolean;
 }
 
-function CustomNode({ isConnectable }: CustomNodeProps) {
+function StructureNode({ isConnectable }: CustomNodeProps) {
   return (
-    <div className="text-updater-node">
-      <div>HELLOOOO</div>
+    <div className="structure-node">
+      <div>Structure name</div>
       <Handle
-        type="source"
+        type="target"
         position={Position.Left}
         id="b"
         isConnectable={isConnectable}
@@ -34,8 +34,23 @@ function CustomNode({ isConnectable }: CustomNodeProps) {
   );
 }
 
+function VarNode({ isConnectable }: CustomNodeProps) {
+  return (
+    <div className="var-node">
+      <div>Var name</div>
+      <Handle
+        type="source"
+        position={Position.Right}
+        id="b"
+        isConnectable={isConnectable}
+      />
+    </div>
+  );
+}
+
 const nodeTypes: NodeTypes = {
-  custom: CustomNode,
+  varNode: VarNode,
+  structureNode: StructureNode,
 };
 
 const initialNodes: Node<{ label: string }, string | undefined>[] = [];
@@ -53,10 +68,14 @@ function DnDFlow() {
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance | null>(null);
 
-  const onConnect = useCallback(
-    (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
-    [],
-  );
+  const onConnect = useCallback((params: Edge | Connection) => {
+    const localEdges: Connection[] = JSON.parse(
+      localStorage.getItem('edges') || '[]',
+    );
+    localEdges.push(params as Connection);
+    localStorage.setItem('edges', JSON.stringify(localEdges));
+    return setEdges((eds) => addEdge(params, eds));
+  }, []);
 
   const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -83,7 +102,11 @@ function DnDFlow() {
         type,
         position: position || { x: 0, y: 0 },
         data: { label: `${type} node` },
-        style: { fontSize: '1.5rem' },
+        style: {
+          fontSize: '0.5rem',
+          height: '2rem',
+          width: '5rem',
+        },
       };
 
       setNodes((nds: Node<{ label: string }, string | undefined>[]) =>
@@ -92,12 +115,42 @@ function DnDFlow() {
     },
     [reactFlowInstance],
   );
-
   return (
     <div className="dndflow relative w-full h-[80%] text-black bg-white">
       <ReactFlowProvider>
-        <div className="absolute left-[50%] h-full w-[10px] bg-transparent border-r border-[0px] border-dashed border-gray-500 translate-x-[-50%]" />
-        <Sidebar />
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '25%',
+            height: '25%',
+            zIndex: 9,
+            backgroundColor: '#ccc',
+          }}
+        >
+          <Sidebar
+            nodes={[{ nodeId: '1', nodeName: 'Var', nodeType: 'varNode' }]}
+          />
+        </div>
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: '25%',
+            height: '25%',
+            zIndex: 9,
+            backgroundColor: '#ccc',
+          }}
+        >
+          <Sidebar
+            nodes={[
+              { nodeId: '1', nodeName: 'Graph', nodeType: 'structureNode' },
+              { nodeId: '2', nodeName: 'Table', nodeType: 'structureNode' },
+            ]}
+          />
+        </div>
         <div className="w-full h-full" ref={reactFlowWrapper}>
           <ReactFlow
             nodes={nodes}
@@ -109,7 +162,6 @@ function DnDFlow() {
             onDrop={onDrop}
             onDragOver={onDragOver}
             nodeTypes={nodeTypes}
-            panOnDrag={false}
             panOnScroll={false}
             fitView
           />
