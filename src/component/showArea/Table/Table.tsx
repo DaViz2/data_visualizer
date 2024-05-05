@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import Draggable from 'react-draggable';
 import {
   ColumnDef,
   useReactTable,
@@ -31,33 +32,35 @@ function Table({ data }: { data: object[] }) {
   });
 
   return (
-    <table>
-      <thead className="bg-gray-50">
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <th key={header.id}>
-                {flexRender(
-                  header.column.columnDef.header,
-                  header.getContext(),
-                )}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody className="bg-white divide-x divide-gray-200 divide-y divide-gray-200">
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id} className="hover:bg-gray-50">
-            {row.getAllCells().map((cell) => (
-              <td key={cell.id}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Draggable>
+      <table>
+        <thead className="bg-gray-50">
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th key={header.id}>
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext(),
+                  )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody className="bg-white divide-x divide-gray-200 divide-y divide-gray-200">
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id} className="hover:bg-gray-50">
+              {row.getAllCells().map((cell) => (
+                <td key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </Draggable>
   );
 }
 

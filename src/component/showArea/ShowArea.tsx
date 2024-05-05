@@ -16,15 +16,9 @@ export default function Showarea() {
     content: (
       <div className="relative h-full w-full">
         <div className="h-full w-full" ref={ref}>
-          {/*<Graph nodes={testGraphData.nodes} links={testGraphData.edges} />*/}
+          <Graph nodes={testGraphData.nodes} links={testGraphData.edges} />
           <ArrayTable data={testArrayData} />
-          {/*
-          <Draggable>
-            <div>
-              <Table data={testTableData} />
-            </div>
-          </Draggable>
-          */}
+          <Table data={testTableData} />
         </div>
       </div>
     ),

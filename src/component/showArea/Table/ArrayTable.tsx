@@ -40,13 +40,12 @@ function createColumnsFromArray(data: number[][]): ColumnDef<number[]>[] {
 function ArrayTable({ data }: TableFromMultiArrayProps) {
   const ref = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const fgRef = useRef<any>(null);
+  // const fgRef = useRef<any>(null);
   const [rendered, setRendered] = useState<boolean>(false);
   const [dimensions, setDimensions] = useState<Dimensions>({
     width: 0,
     height: 0,
   });
-  
   useEffect(() => {
     if (ref.current) {
       setDimensions({
@@ -70,7 +69,6 @@ function ArrayTable({ data }: TableFromMultiArrayProps) {
   });
 
   return (
-    
     <div
       ref={ref}
       className="h-full w-full overflow-hidden box-border bg-white border-2 border-black"
@@ -81,22 +79,22 @@ function ArrayTable({ data }: TableFromMultiArrayProps) {
       }
     >
       <Draggable>
-      <table>
-        <tbody className="bg-white divide-x divide-gray-200 divide-y divide-gray-200">
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getAllCells().map((cell) => (
-                <td
-                  key={cell.id}
-                  className="px-4 py-2 text-center hover:bg-gray-100"
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        <table>
+          <tbody className="bg-white divide-x divide-gray-200 divide-y divide-gray-200">
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id}>
+                {row.getAllCells().map((cell) => (
+                  <td
+                    key={cell.id}
+                    className="px-4 py-2 text-center hover:bg-gray-100"
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </Draggable>
     </div>
   );
