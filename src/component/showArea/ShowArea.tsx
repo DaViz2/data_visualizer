@@ -2,6 +2,10 @@ import React, { useRef } from 'react';
 import TabComponent from '../tab/Tab';
 import Graph from './Graph/Graph';
 import testGraphData from '../../assets/testData/testgraph.json';
+//import testArrayData from '../../assets/testData/testarray.json';
+//import testTableData from '../../assets/testData/testtable.json';
+import { Table } from 'react-bootstrap';
+
 
 export default function Showarea() {
   const ref = useRef<HTMLDivElement>(null);
@@ -13,6 +17,7 @@ export default function Showarea() {
       <div className="relative h-full w-full">
         <div className="h-full w-full" ref={ref}>
           <Graph nodes={testGraphData.nodes} links={testGraphData.edges} />
+          <Table/>
         </div>
       </div>
     ),

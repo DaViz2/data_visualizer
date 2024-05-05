@@ -1,4 +1,4 @@
-@charset "UTF-8";
+/* @charset "UTF-8";
 
 table {
   border: 1px solid #ddd;
@@ -19,13 +19,13 @@ table tbody tr td {
   min-width: auto;
   padding: 10px;
   margin: 0;
-}
+} */
 
 /* table tbody tr td:nth-child(1) {
   min-width: auto;
 } */
 
-table tbody td:hover {
+/* table tbody td:hover {
   background-color: #ddd;
   cursor: pointer;
 } 
@@ -41,4 +41,4 @@ table tbody tr.disabled_row:hover {
 
 .disabled_row {
   color: rgb(199, 199, 199);
-}
+} */
