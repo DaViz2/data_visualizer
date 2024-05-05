@@ -32,7 +32,7 @@ function Table({ data }: { data: object[] }) {
 
   return (
     <table>
-      <thead>
+      <thead className="bg-gray-50">
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
@@ -46,9 +46,9 @@ function Table({ data }: { data: object[] }) {
           </tr>
         ))}
       </thead>
-      <tbody>
+      <tbody className="bg-white divide-x divide-gray-200 divide-y divide-gray-200">
         {table.getRowModel().rows.map((row) => (
-          <tr key={row.id}>
+          <tr key={row.id} className="hover:bg-gray-50">
             {row.getAllCells().map((cell) => (
               <td key={cell.id}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}

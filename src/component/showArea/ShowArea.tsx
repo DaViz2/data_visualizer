@@ -3,8 +3,9 @@ import Draggable from 'react-draggable';
 import TabComponent from '../tab/Tab';
 import Graph from './Graph/Graph';
 import Table from './Table/Table';
+import ArrayTable from './Table/ArrayTable';
 import testGraphData from '../../assets/testData/testgraph.json';
-// import testArrayData from '../../assets/testData/testarray.json';
+import testArrayData from '../../assets/testData/testarray.json';
 import testTableData from '../../assets/testData/testtable.json';
 
 export default function Showarea() {
@@ -20,6 +21,11 @@ export default function Showarea() {
           <Draggable>
             <div>
               <Table data={testTableData} />
+            </div>
+          </Draggable>
+          <Draggable>
+            <div>
+              <ArrayTable data={testArrayData} />
             </div>
           </Draggable>
         </div>
