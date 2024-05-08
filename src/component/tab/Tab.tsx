@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './tab.css';
 
 interface Tab {
-  title: string;
+  title: string | JSX.Element;
   content: JSX.Element;
 }
 
