@@ -1,11 +1,16 @@
 import inspect
+import json
 
 varsend = lambda var: varSend(var, get_var_name(var))
 
 def varSend(varValue, var_name):
-    print(f"Variable Name: {var_name}")
-    print(f"Variable Type: {type(varValue)}")
-    print(f"Variable Value: {varValue}")
+    var_info = {
+        "Variable Name": var_name,
+        "Variable Type": str(type(varValue)),
+        "Variable Value": str(varValue)
+    }
+    with open('output.json', 'w') as f:
+        json.dump(var_info, f)
 
 
 def get_var_name(var):
