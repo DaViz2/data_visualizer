@@ -1,13 +1,15 @@
 import React from 'react';
 import './blueprint.css';
 
-interface NodeProp {
+export interface NodeProp {
   nodeId: string;
   nodeName: string;
   nodeType: string;
 }
 
-interface SidebarProp {
+export interface SidebarProp {
+  // eslint-disable-next-line react/no-unused-prop-types
+  nodeCount: number;
   nodes: NodeProp[];
 }
 

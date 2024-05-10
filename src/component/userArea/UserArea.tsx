@@ -14,9 +14,11 @@ export default function Userarea() {
   const tabs = [
     {
       title: 'Code Area',
+      // title: <span style={{ color: '#FFFFFF' }}>Code Area</span>,
       content: <Board code={code} setCode={setCode} />,
     },
     { title: 'Blue Print', content: <Blueprint /> },
+    // title: <span style={{ color: '#FFFFFF' }}>Blue Print</span>,
   ];
   return (
     <div className="relative flex w-full h-full">

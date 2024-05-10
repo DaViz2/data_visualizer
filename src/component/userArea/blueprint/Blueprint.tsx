@@ -15,15 +15,17 @@ import ReactFlow, {
 import './blueprint.css';
 import 'reactflow/dist/style.css';
 import Sidebar from './Sidebar';
+import VarSidebar from './VarSidebar';
 
 interface CustomNodeProps {
   isConnectable: boolean;
+  data: { label: string };
 }
 
-function StructureNode({ isConnectable }: CustomNodeProps) {
+function StructureNode({ isConnectable, data }: CustomNodeProps) {
   return (
     <div className="structure-node">
-      <div>Structure name</div>
+      <div>{data.label}</div>
       <Handle
         type="target"
         position={Position.Left}
@@ -34,10 +36,10 @@ function StructureNode({ isConnectable }: CustomNodeProps) {
   );
 }
 
-function VarNode({ isConnectable }: CustomNodeProps) {
+function VarNode({ isConnectable, data }: CustomNodeProps) {
   return (
     <div className="var-node">
-      <div>Var name</div>
+      <div>{data.label}</div>
       <Handle
         type="source"
         position={Position.Right}
@@ -87,8 +89,15 @@ function DnDFlow() {
     (event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
 
-      const type = event.dataTransfer.getData('application/reactflow');
+      let type = event.dataTransfer.getData('application/reactflow');
 
+      const parseIndex: number = type.indexOf('/');
+      const firstPart: string = type.substring(0, parseIndex);
+      let nodeName: string = type;
+      if (firstPart === 'varNode') {
+        nodeName = type.substring(parseIndex + 1);
+        type = firstPart;
+      }
       // check if the dropped element is valid
       if (typeof type === 'undefined' || !type) {
         return;
@@ -101,7 +110,7 @@ function DnDFlow() {
         id: getId(),
         type,
         position: position || { x: 0, y: 0 },
-        data: { label: `${type} node` },
+        data: { label: `${nodeName}` },
         style: {
           fontSize: '0.5rem',
           height: '2rem',
@@ -127,11 +136,10 @@ function DnDFlow() {
             height: '25%',
             zIndex: 9,
             backgroundColor: '#ccc',
+            overflow: 'auto',
           }}
         >
-          <Sidebar
-            nodes={[{ nodeId: '1', nodeName: 'Var', nodeType: 'varNode' }]}
-          />
+          <VarSidebar nodeCount={0} nodes={[]} />
         </div>
         <div
           style={{
@@ -145,6 +153,7 @@ function DnDFlow() {
           }}
         >
           <Sidebar
+            nodeCount={2}
             nodes={[
               { nodeId: '1', nodeName: 'Graph', nodeType: 'structureNode' },
               { nodeId: '2', nodeName: 'Table', nodeType: 'structureNode' },

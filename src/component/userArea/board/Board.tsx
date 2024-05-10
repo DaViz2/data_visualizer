@@ -1,35 +1,68 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import MonacoEditor from '@monaco-editor/react';
+import { editor } from 'monaco-editor';
 
 interface BoardProps {
   code: string;
   setCode: (code: string) => void;
 }
 
-function Board({ code, setCode }: BoardProps) {
-  const handleCodeChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCode(event.target.value);
-  };
+/*
+editor.defineTheme('myTheme', {
+  base: 'vs',
+  inherit: true,
+  rules: [{ token: 'comment', foreground: 'ffa500', background: 'EDF9FA' }],
+  colors: {
+    'editor.foreground': '#000000',
+    'editor.background': '#FFFFFF',
+    'editorCursor.foreground': '#000000',
+    'editor.lineHighlightBackground': '#D3D3D3',
+    'editorLineNumber.foreground': '#008800',
+    'editor.selectionBackground': '#ADD6FF',
+    'editor.inactiveSelectionBackground': '#E6E6E6',
+  },
+});
+*/
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === 'Tab') {
-      event.preventDefault();
-      const start = event.currentTarget.selectionStart;
-      const end = event.currentTarget.selectionEnd;
-      const target = event.currentTarget;
-      setCode(`${code.slice(0, start)}\t${code.slice(end)}`);
-      setTimeout(() => {
-        target.selectionStart = start + 1;
-        target.selectionEnd = start + 1;
-      }, 0);
+function Board({ code, setCode }: BoardProps) {
+  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.focus();
+    }
+  }, []);
+
+  const handleEditorChange = (newValue: string | undefined) => {
+    if (newValue !== undefined) {
+      setCode(newValue);
     }
   };
+
+  const handleEditorDidMount = (
+    editorInstance: editor.IStandaloneCodeEditor,
+  ) => {
+    editorRef.current = editorInstance;
+  };
+
   return (
     <div className="w-full h-full transform scale-130">
-      <textarea
-        className="flex w-full h-full resize-none outline-none bg-blue-100"
+      <MonacoEditor
+        width="100%"
+        height="100%"
+        language="python"
+        theme="vs"
         value={code}
-        onChange={handleCodeChange}
-        onKeyDown={handleKeyDown}
+        onChange={handleEditorChange}
+        onMount={handleEditorDidMount}
+        options={{
+          lineNumbers: 'on',
+          quickSuggestions: false,
+          minimap: { enabled: false },
+          scrollBeyondLastLine: false,
+          lineDecorationsWidth: 1,
+          renderLineHighlight: 'none',
+        }}
       />
     </div>
   );
