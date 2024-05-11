@@ -51,7 +51,7 @@ function Board({ code, setCode }: BoardProps) {
         width="100%"
         height="100%"
         language="python"
-        theme="vs"
+        theme="vs-dark"
         value={code}
         onChange={handleEditorChange}
         onMount={handleEditorDidMount}
