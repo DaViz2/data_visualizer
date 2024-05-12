@@ -10,26 +10,28 @@ import testTableData from '../../assets/testData/testtable.json';
 export default function Showarea() {
   const ref = useRef<HTMLDivElement>(null);
 
-  const num = 3;
-  const tabs = Array.from({ length: num }, (_, i) => ({
-    title: <span style={{ color: '#EE95EA' }}>Show{i + 1}</span>,
-    // title: `Show${i + 1}`,
-    content: (
-      <div className="relative h-full w-full">
-        <div className="h-full w-full" ref={ref}>
-          <Graph nodes={testGraphData.nodes} links={testGraphData.edges} />
-          <ArrayTable data={testArrayData} />
-          <Table data={testTableData} />
+  const tabs = Array.from(
+    [
+      <Graph nodes={testGraphData.nodes} links={testGraphData.edges} />,
+      <ArrayTable data={testArrayData} />,
+      <Table data={testTableData} />,
+    ],
+    (component, i) => ({
+      // title: `Show${i + 1}`,
+      title: <span style={{ color: '#FFFFFF' }}>Show{i + 1}</span>,
+      content: (
+        <div className="relative h-[100%] w-full">
+          <div className="h-full w-full" ref={ref}>
+            {component}
+          </div>
         </div>
-      </div>
-    ),
-  }));
+      ),
+    }),
+  );
 
   return (
-    <div className="flex w-full h-full">
-      <div className="flex w-full h-[100%] flex-col items-center p-2 bg-slate-300">
-        <TabComponent tabs={tabs} />
-      </div>
+    <div className="relative flex w-full h-[100%] bg-[#252F3E]">
+      <TabComponent tabs={tabs} />
     </div>
   );
 }

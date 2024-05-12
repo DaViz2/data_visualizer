@@ -13,6 +13,7 @@ interface GraphProps {
   links: LinkData[];
 }
 
+// show1
 function Graph({ nodes, links }: GraphProps) {
   const ref = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,7 +47,7 @@ function Graph({ nodes, links }: GraphProps) {
   return (
     <div
       ref={ref}
-      className="h-full w-full overflow-hidden box-border bg-white border-2 border-black"
+      className="h-full w-full overflow-hidden box-border bg-[#CADCA0] border-2 border-[#3D3D3D]"
       style={
         rendered
           ? { maxWidth: dimensions.width, maxHeight: dimensions.height }
@@ -61,11 +62,11 @@ function Graph({ nodes, links }: GraphProps) {
         nodeCanvasObjectMode={() => 'after'}
         nodeCanvasObject={(node, ctx, globalScale) => {
           const label = node.name;
-          const fontSize = 12 / globalScale;
+          const fontSize = 17 / globalScale;
           ctx.font = `${fontSize}px Sans-Serif`;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          ctx.fillStyle = 'black';
+          ctx.fillStyle = '#FFFFFF'; // 노드 글자색
           ctx.fillText(label, node.x as number, node.y as number);
         }}
         onNodeHover={(node, previousNode) => {
@@ -82,6 +83,8 @@ function Graph({ nodes, links }: GraphProps) {
         onBackgroundRightClick={() => {
           fgRef.current.zoomToFit();
         }}
+        linkColor={() => '#000000'}
+        nodeColor={() => '#FF8C1A'}
       />
     </div>
   );
