@@ -50,10 +50,10 @@ function ArrayTable({ data }: TableFromMultiArrayProps) {
   });
 
   return (
-    <div className="h-full w-full overflow-hidden box-border bg-white border-2 border-black">
-      <Draggable>
-        <table>
-          <tbody className="bg-white divide-x divide-gray-200 divide-y divide-gray-200">
+    <div className="h-full w-full overflow-hidden box-border bg-[#CADCA0] border-2 border-[#3D3D3D] flex justify-center">
+      <Draggable positionOffset={{ x: 0, y: '100%' }}>
+        <table className="h-fit ">
+          <tbody className="bg-white divide-x divide-gray-200 divide-y divide-gray-200 ">
             {table.getRowModel().rows.map((row) => (
               <tr key={row.id}>
                 {row.getAllCells().map((cell) => (

@@ -29,7 +29,7 @@ export default function Showarea() {
   );
 
   return (
-    <div className="relative flex w-full h-[100%] bg-[#252F3E]">
+    <div className="relative flex w-full h-[100%] bg-[#252F3E] ">
       <TabComponent tabs={tabs} />
     </div>
   );

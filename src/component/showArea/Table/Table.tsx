@@ -34,9 +34,9 @@ function Table({ data }: { data: object[] }) {
   });
 
   return (
-    <div className="h-full w-full overflow-hidden box-border bg-white border-2 border-black">
-      <Draggable>
-        <table>
+    <div className="h-full w-full overflow-hidden box-border bg-[#CADCA0] border-2 border-[#3D3D3D] flex justify-center">
+      <Draggable positionOffset={{ x: 0, y: '100%' }}>
+        <table className="h-fit">
           <thead className="bg-gray-50">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
