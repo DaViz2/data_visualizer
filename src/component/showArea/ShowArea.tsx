@@ -17,9 +17,9 @@ export default function Showarea() {
       <Table data={testTableData} />,
     ],
     (component, i) => ({
-      title: `Show${i + 1}`,
+      title: <span style={{ color: '#FFFFFF' }}>Show{i + 1}</span>,
       content: (
-        <div className="relative h-full w-full">
+        <div className="relative h-[100%] w-full">
           <div className="h-full w-full" ref={ref}>
             {component}
           </div>
@@ -29,10 +29,8 @@ export default function Showarea() {
   );
 
   return (
-    <div className="flex w-full h-full">
-      <div className="flex w-full h-[100%] flex-col items-center p-2 bg-slate-100">
-        <TabComponent tabs={tabs} />
-      </div>
+    <div className="relative flex w-full h-[100%] bg-[#252F3E]">
+      <TabComponent tabs={tabs} />
     </div>
   );
 }

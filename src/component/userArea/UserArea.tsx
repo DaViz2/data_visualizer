@@ -13,15 +13,19 @@ export default function Userarea() {
   };
   const tabs = [
     {
-      title: 'Code Area',
-      // title: <span style={{ color: '#FFFFFF' }}>Code Area</span>,
+      // title: 'Code Area',
+      title: <span style={{ color: '#FFFFFF' }}>Code Area</span>,
       content: <Board code={code} setCode={setCode} />,
     },
-    { title: 'Blue Print', content: <Blueprint /> },
-    // title: <span style={{ color: '#FFFFFF' }}>Blue Print</span>,
+
+    {
+      title: <span style={{ color: '#FFFFFF' }}>Blue Print</span>,
+      content: <Blueprint />,
+    },
+    // title: 'Blue Print'
   ];
   return (
-    <div className="relative flex w-full h-full">
+    <div className="relative flex w-full h-[100%]">
       <TabComponent tabs={tabs} />
       <Button handleExecute={handleSaveToFile} />
     </div>

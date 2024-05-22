@@ -8,6 +8,7 @@ import {
   flexRender,
 } from '@tanstack/react-table';
 
+// show2
 // 프로퍼티 타입 정의
 interface TableFromMultiArrayProps {
   data: number[][]; // 다차원 배열 형태의 데이터
@@ -36,7 +37,7 @@ function createColumnsFromArray(data: number[][]): ColumnDef<number[]>[] {
 function ArrayTable({ data }: TableFromMultiArrayProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // const fgRef = useRef<any>(null);
-
+  
   // 데이터와 컬럼 메모이제이션
   const memoizedColumns = useMemo(() => createColumnsFromArray(data), [data]);
   const memoizedData = useMemo(() => data, [data]);

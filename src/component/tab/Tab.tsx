@@ -31,7 +31,7 @@ function TabComponent({ tabs }: TabComponentProps): JSX.Element {
             }flex pr-3 w-[10rem] h-[2rem]`}
           >
             <div
-              className={`flex ${index === activeTab ? 'bg-[#7D0000] ' : 'bg-white '} w-full h-full justify-center items-center`}
+              className={`flex ${index === activeTab ? 'bg-[#3D3D3D] ' : 'bg-[#707070] '} w-full h-full justify-center items-center`}
             >
               {tab.title}
             </div>
