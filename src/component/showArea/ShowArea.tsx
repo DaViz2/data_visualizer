@@ -17,7 +17,6 @@ export default function Showarea() {
       <Table data={testTableData} />,
     ],
     (component, i) => ({
-      // title: `Show${i + 1}`,
       title: <span style={{ color: '#FFFFFF' }}>Show{i + 1}</span>,
       content: (
         <div className="relative h-[100%] w-full">
