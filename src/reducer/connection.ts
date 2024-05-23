@@ -1,8 +1,10 @@
-import {
-  ADD_CONNECTION,
-  ConnectionHandleTypes,
-  EdgeConnection,
-} from '../actions/types';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+export interface EdgeConnection {
+  from: string;
+  to: string;
+}
 
 interface ConnectionState {
   connections: EdgeConnection[];
@@ -12,20 +14,18 @@ const initialState: ConnectionState = {
   connections: [],
 };
 
-const connectionHandler = (
-  // eslint-disable-next-line @typescript-eslint/default-param-last
-  state = initialState,
-  action: ConnectionHandleTypes,
-): ConnectionState => {
-  switch (action.type) {
-    case ADD_CONNECTION:
+const connectionSlice = createSlice({
+  name: 'connection',
+  initialState,
+  reducers: {
+    addConnection: (state, action: PayloadAction<EdgeConnection>) => {
       return {
         ...state,
         connections: [...state.connections, action.payload],
       };
-    default:
-      return state;
-  }
-};
+    },
+  },
+});
 
-export default connectionHandler;
+export const { addConnection } = connectionSlice.actions;
+export default connectionSlice.reducer;

@@ -1,4 +1,11 @@
-import { ADD_DATA, DataHandleTypes, GET_DATA, VarData } from '../actions/types';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+export interface VarData {
+  name: string;
+  value: string;
+  type: string;
+}
 
 interface DataState {
   data: VarData[];
@@ -8,22 +15,19 @@ const initialState: DataState = {
   data: [],
 };
 
-const dataHandler = (
-  // eslint-disable-next-line @typescript-eslint/default-param-last
-  state = initialState,
-  action: DataHandleTypes,
-): DataState => {
-  switch (action.type) {
-    case ADD_DATA:
+const dataSlice = createSlice({
+  name: 'vardata',
+  initialState,
+  reducers: {
+    addData: (state: DataState, action: PayloadAction<VarData>) => {
       return {
         ...state,
         data: [...state.data, action.payload],
       };
-    case GET_DATA:
-      return state;
-    default:
-      return state;
-  }
-};
+    },
+    getData: (state) => state,
+  },
+});
 
-export default dataHandler;
+export const { addData, getData } = dataSlice.actions;
+export default dataSlice.reducer;

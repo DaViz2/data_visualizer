@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { VarData } from '../../../reducer/vardata';
 import './blueprint.css';
 import { NodeProp, SidebarProp } from './Sidebar';
-import { VarData } from '../../../actions/types';
 
 function VarSidebar({ nodes }: SidebarProp) {
   const [newNodeItemText, setNewNodeItemText] = useState<string>('');
