@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './blueprint.css';
 import { NodeProp, SidebarProp } from './Sidebar';
-
-interface VarData {
-  name: string;
-  value: string;
-  type: string;
-}
+import { VarData } from '../../../actions/types';
 
 function VarSidebar({ nodes }: SidebarProp) {
   const [newNodeItemText, setNewNodeItemText] = useState<string>('');
@@ -15,6 +10,7 @@ function VarSidebar({ nodes }: SidebarProp) {
     nodes,
   });
 
+  // 서버에서 넘어온 변수를 자동으로 목록에 추가하는 부분
   useEffect(() => {
     let cnt = nodeItems.nodeCount;
     fetch('/varData.json')
@@ -33,15 +29,17 @@ function VarSidebar({ nodes }: SidebarProp) {
       });
   }, []);
 
+  // 새로운 변수명 관리
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewNodeItemText(event.target.value);
   };
 
   const handleDeleteItem = (id: string) => {
     const newItems = nodeItems.nodes.filter((item) => item.nodeId !== id);
-    setNodeItems({ nodeCount: nodeItems.nodeCount - 1, nodes: newItems }); // 항목 삭제
+    setNodeItems({ nodeCount: nodeItems.nodeCount - 1, nodes: newItems });
   };
 
+  // Enter로 새로운 변수명 입력 시 처리
   const handleAddNodeItem = () => {
     if (newNodeItemText.trim() !== '') {
       setNodeItems({
@@ -68,6 +66,7 @@ function VarSidebar({ nodes }: SidebarProp) {
     }
   };
 
+  // 변수 리스트에서 끌어오는 부분 처리
   const onDragStart = (
     event: React.DragEvent<HTMLDivElement>,
     nodeInfo: NodeProp,
@@ -105,7 +104,7 @@ function VarSidebar({ nodes }: SidebarProp) {
         type="text"
         value={newNodeItemText}
         onChange={handleInputChange}
-        placeholder="새로운 조사식"
+        placeholder="새로운 변수명"
         onKeyUp={handleInputKeyPress}
       />
     </div>

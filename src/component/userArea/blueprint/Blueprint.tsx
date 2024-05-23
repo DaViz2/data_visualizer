@@ -48,10 +48,10 @@ function DnDFlow() {
   const onDrop = useCallback(
     (event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
-
-      const nodeInfo: NodeProp = JSON.parse(
-        event.dataTransfer.getData('application/reactflow'),
+      const transferedData = event.dataTransfer.getData(
+        'application/reactflow',
       );
+      const nodeInfo: NodeProp = JSON.parse(transferedData);
 
       const position = reactFlowInstance?.screenToFlowPosition({
         x: event.clientX,
