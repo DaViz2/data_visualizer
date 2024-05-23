@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './blueprint.css';
-import { SidebarProp } from './Sidebar';
+import { NodeProp, SidebarProp } from './Sidebar';
+
+interface VarData {
+  name: string;
+  value: string;
+  type: string;
+}
 
 function VarSidebar({ nodes }: SidebarProp) {
   const [newNodeItemText, setNewNodeItemText] = useState<string>('');
@@ -8,6 +14,24 @@ function VarSidebar({ nodes }: SidebarProp) {
     nodeCount: 0,
     nodes,
   });
+
+  useEffect(() => {
+    let cnt = nodeItems.nodeCount;
+    fetch('/varData.json')
+      .then((response) => response.json())
+      .then((varDatas) => {
+        const newNodes: NodeProp[] = varDatas.data.map((varData: VarData) => {
+          cnt += 1;
+          return {
+            nodeId: (cnt - 1).toString(),
+            nodeName: varData.name,
+            nodeType: 'varNode',
+            nodeContent: varData.type,
+          };
+        });
+        setNodeItems({ nodeCount: cnt - 1, nodes: newNodes });
+      });
+  }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewNodeItemText(event.target.value);
@@ -25,9 +49,10 @@ function VarSidebar({ nodes }: SidebarProp) {
         nodes: [
           ...nodeItems.nodes,
           {
-            nodeId: nodeItems.nodeCount.toString(),
+            nodeId: (nodeItems.nodeCount + 1).toString(),
             nodeName: newNodeItemText.trim(),
             nodeType: 'varNode',
+            nodeContent: '',
           },
         ],
       });
@@ -45,13 +70,12 @@ function VarSidebar({ nodes }: SidebarProp) {
 
   const onDragStart = (
     event: React.DragEvent<HTMLDivElement>,
-    nodeType: string,
-    nodeName: string,
+    nodeInfo: NodeProp,
   ) => {
     const newEvent = { ...event };
     newEvent.dataTransfer.setData(
       'application/reactflow',
-      `${nodeType}/${nodeName}`,
+      JSON.stringify(nodeInfo),
     );
     // eslint-disable-next-line no-param-reassign
     newEvent.dataTransfer.effectAllowed = 'move';
@@ -65,9 +89,9 @@ function VarSidebar({ nodes }: SidebarProp) {
             // eslint-disable-next-line react/no-array-index-key
             key={node.nodeId}
             className="dndnode"
-            onDragStart={(event) =>
-              onDragStart(event, node.nodeType, node.nodeName)
-            }
+            onDragStart={(event) => {
+              onDragStart(event, node);
+            }}
             draggable
           >
             {node.nodeName}

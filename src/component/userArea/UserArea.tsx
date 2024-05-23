@@ -27,7 +27,12 @@ export default function Userarea() {
   return (
     <div className="relative flex w-full h-[100%]">
       <TabComponent tabs={tabs} />
-      <Button handleExecute={handleSaveToFile} />
+      <div className="absolute top-0 right-0">
+        <div className="flex flex-row">
+          <Button handleExecute={handleSaveToFile} label=">" />
+          <Button handleExecute={handleSaveToFile} label="|>" />
+        </div>
+      </div>
     </div>
   );
 }

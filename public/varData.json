@@ -1,0 +1,64 @@
+{
+    "data" : [
+    {
+        "name": "age",
+        "value": 25,
+        "type": "int"
+    },
+    {
+        "name": "height",
+        "value": 1.75,
+        "type": "float"
+    },
+    {
+        "name": "name",
+        "value": "John Doe",
+        "type": "str"
+    },
+    {
+        "name": "is_student",
+        "value": true,
+        "type": "bool"
+    },
+    {
+        "name": "fruits",
+        "value": [
+            "apple",
+            "banana",
+            "orange"
+        ],
+        "type": "list"
+    },
+    {
+        "name": "coordinates",
+        "value": [
+            10,
+            20
+        ],
+        "type": "tuple"
+    },
+    {
+        "name": "person",
+        "value": {
+            "name": "Jane Smith",
+            "age": 30,
+            "is_student": false
+        },
+        "type": "dict"
+    },
+    {
+        "name": "grades",
+        "value": [
+            90,
+            85,
+            95
+        ],
+        "type": "set"
+    },
+    {
+        "name": "result",
+        "value": null,
+        "type": "NoneType"
+    }
+]
+}

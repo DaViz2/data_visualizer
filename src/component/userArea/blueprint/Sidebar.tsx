@@ -5,6 +5,7 @@ export interface NodeProp {
   nodeId: string;
   nodeName: string;
   nodeType: string;
+  nodeContent: string;
 }
 
 export interface SidebarProp {
@@ -16,10 +17,13 @@ export interface SidebarProp {
 function Sidebar({ nodes }: SidebarProp) {
   const onDragStart = (
     event: React.DragEvent<HTMLDivElement>,
-    nodeType: string,
+    nodeInfo: NodeProp,
   ) => {
     const newEvent = { ...event };
-    newEvent.dataTransfer.setData('application/reactflow', nodeType);
+    newEvent.dataTransfer.setData(
+      'application/reactflow',
+      JSON.stringify(nodeInfo),
+    );
     // eslint-disable-next-line no-param-reassign
     newEvent.dataTransfer.effectAllowed = 'move';
   };
@@ -31,7 +35,7 @@ function Sidebar({ nodes }: SidebarProp) {
           // eslint-disable-next-line react/no-array-index-key
           key={node.nodeId}
           className="dndnode"
-          onDragStart={(event) => onDragStart(event, node.nodeType)}
+          onDragStart={(event) => onDragStart(event, node)}
           draggable
         >
           {node.nodeName}
