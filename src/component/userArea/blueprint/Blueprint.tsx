@@ -8,52 +8,12 @@ import ReactFlow, {
   Connection,
   Edge,
   Node,
-  NodeTypes,
-  Position,
-  Handle,
 } from 'reactflow';
 import './blueprint.css';
 import 'reactflow/dist/style.css';
-import Sidebar from './Sidebar';
+import Sidebar, { NodeProp } from './Sidebar';
 import VarSidebar from './VarSidebar';
-
-interface CustomNodeProps {
-  isConnectable: boolean;
-  data: { label: string };
-}
-
-function StructureNode({ isConnectable, data }: CustomNodeProps) {
-  return (
-    <div className="structure-node">
-      <div>{data.label}</div>
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="b"
-        isConnectable={isConnectable}
-      />
-    </div>
-  );
-}
-
-function VarNode({ isConnectable, data }: CustomNodeProps) {
-  return (
-    <div className="var-node">
-      <div>{data.label}</div>
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="b"
-        isConnectable={isConnectable}
-      />
-    </div>
-  );
-}
-
-const nodeTypes: NodeTypes = {
-  varNode: VarNode,
-  structureNode: StructureNode,
-};
+import { nodeTypes } from './CustumNodes';
 
 const initialNodes: Node<{ label: string }, string | undefined>[] = [];
 
@@ -89,28 +49,22 @@ function DnDFlow() {
     (event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
 
-      let type = event.dataTransfer.getData('application/reactflow');
+      const nodeInfo: NodeProp = JSON.parse(
+        event.dataTransfer.getData('application/reactflow'),
+      );
 
-      const parseIndex: number = type.indexOf('/');
-      const firstPart: string = type.substring(0, parseIndex);
-      let nodeName: string = type;
-      if (firstPart === 'varNode') {
-        nodeName = type.substring(parseIndex + 1);
-        type = firstPart;
-      }
-      // check if the dropped element is valid
-      if (typeof type === 'undefined' || !type) {
-        return;
-      }
       const position = reactFlowInstance?.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
       });
       const newNode = {
         id: getId(),
-        type,
+        type: nodeInfo.nodeType,
         position: position || { x: 0, y: 0 },
-        data: { label: `${nodeName}` },
+        data: {
+          label: `${nodeInfo.nodeName}`,
+          content: `${nodeInfo.nodeContent}`,
+        },
         style: {
           fontSize: '0.5rem',
           height: '2rem',
@@ -155,8 +109,18 @@ function DnDFlow() {
           <Sidebar
             nodeCount={2}
             nodes={[
-              { nodeId: '1', nodeName: 'Graph', nodeType: 'structureNode' },
-              { nodeId: '2', nodeName: 'Table', nodeType: 'structureNode' },
+              {
+                nodeId: '1',
+                nodeName: 'Graph',
+                nodeType: 'structureNode',
+                nodeContent: '',
+              },
+              {
+                nodeId: '2',
+                nodeName: 'Table',
+                nodeType: 'structureNode',
+                nodeContent: '',
+              },
             ]}
           />
         </div>
