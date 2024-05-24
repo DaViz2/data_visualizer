@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { VarData } from '../../../reducer/vardata';
+import { useAppDispatch } from '../../../hooks';
+import { addData, VarData } from '../../../reducer/vardata';
 import './blueprint.css';
-import { NodeProp, SidebarProp } from './Sidebar';
+// eslint-disable-next-line import/namespace
+import { NodeProp } from './CustumNodes';
+import { SidebarProp } from './StructureSidebar';
 
 function VarSidebar({ nodes }: SidebarProp) {
   const [newNodeItemText, setNewNodeItemText] = useState<string>('');
@@ -9,6 +12,7 @@ function VarSidebar({ nodes }: SidebarProp) {
     nodeCount: 0,
     nodes,
   });
+  const dispatch = useAppDispatch();
 
   // 서버에서 넘어온 변수를 자동으로 목록에 추가하는 부분
   useEffect(() => {
@@ -18,6 +22,7 @@ function VarSidebar({ nodes }: SidebarProp) {
       .then((varDatas) => {
         const newNodes: NodeProp[] = varDatas.data.map((varData: VarData) => {
           cnt += 1;
+          dispatch(addData(varData));
           return {
             nodeId: (cnt - 1).toString(),
             nodeName: varData.name,

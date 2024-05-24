@@ -11,11 +11,20 @@ import ReactFlow, {
 } from 'reactflow';
 import './blueprint.css';
 import 'reactflow/dist/style.css';
-import Sidebar, { NodeProp } from './Sidebar';
+import Sidebar from './StructureSidebar';
 import VarSidebar from './VarSidebar';
-import { nodeTypes } from './CustumNodes';
+import { NodeProp, nodeTypes } from './CustumNodes';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import {
+  addstruct,
+  updatestruct,
+  VarConData,
+} from '../../../reducer/structdata';
 
-const initialNodes: Node<{ label: string }, string | undefined>[] = [];
+const initialNodes: Node<
+  { label: string; content: string },
+  string | undefined
+>[] = [];
 
 let id = -1;
 const getId = () => {
@@ -29,15 +38,33 @@ function DnDFlow() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance | null>(null);
+  const dispatch = useAppDispatch();
+  const structs = useAppSelector((state) => state.structdata.structs);
+  const vars = useAppSelector((state) => state.vardata);
 
-  const onConnect = useCallback((params: Edge | Connection) => {
-    const localEdges: Connection[] = JSON.parse(
-      localStorage.getItem('edges') || '[]',
-    );
-    localEdges.push(params as Connection);
-    localStorage.setItem('edges', JSON.stringify(localEdges));
-    return setEdges((eds) => addEdge(params, eds));
-  }, []);
+  const onConnect = useCallback(
+    (params: Edge | Connection) => {
+      const target = nodes.find((value) => {
+        return value.id === params.target;
+      });
+      const struct = structs.find((value) => {
+        return value.structId === target!.id;
+      });
+      const newAdj: VarConData[] = [
+        { handleType: params.targetHandle!, varName: params.sourceHandle! },
+      ];
+      dispatch(
+        updatestruct({
+          ...struct!,
+          adj: struct!.adj.concat(newAdj),
+        }),
+      );
+      console.log(structs);
+      console.log(vars);
+      return setEdges((eds) => addEdge(params, eds));
+    },
+    [nodes],
+  );
 
   const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -67,13 +94,21 @@ function DnDFlow() {
         },
         style: {
           fontSize: '0.5rem',
-          height: '2rem',
-          width: '5rem',
         },
       };
 
-      setNodes((nds: Node<{ label: string }, string | undefined>[]) =>
-        nds.concat(newNode),
+      if (nodeInfo.nodeType !== 'varNode')
+        dispatch(
+          addstruct({
+            structId: newNode.id,
+            structType: nodeInfo.nodeName,
+            adj: [],
+          }),
+        );
+
+      setNodes(
+        (nds: Node<{ label: string; content: string }, string | undefined>[]) =>
+          nds.concat(newNode),
       );
     },
     [reactFlowInstance],
@@ -112,7 +147,7 @@ function DnDFlow() {
               {
                 nodeId: '1',
                 nodeName: 'Graph',
-                nodeType: 'structureNode',
+                nodeType: 'graphNode',
                 nodeContent: '',
               },
               {

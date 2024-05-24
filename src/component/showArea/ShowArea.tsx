@@ -9,7 +9,6 @@ import testTableData from '../../assets/testData/testtable.json';
 
 export default function Showarea() {
   const ref = useRef<HTMLDivElement>(null);
-
   const tabs = Array.from(
     [
       <Graph nodes={testGraphData.nodes} links={testGraphData.edges} />,
