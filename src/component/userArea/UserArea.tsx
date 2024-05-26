@@ -4,6 +4,7 @@ import Blueprint from './blueprint/Blueprint';
 import TabComponent from '../tab/Tab';
 import Board from './board/Board';
 import Button from './board/Button';
+import NextButton from './interactButton/nextButton';
 
 export default function Userarea() {
   const [code, setCode] = useState('');
@@ -31,6 +32,7 @@ export default function Userarea() {
         <div className="flex flex-row">
           <Button handleExecute={handleSaveToFile} label=">" />
           <Button handleExecute={handleSaveToFile} label="|>" />
+          <NextButton />
         </div>
       </div>
     </div>
