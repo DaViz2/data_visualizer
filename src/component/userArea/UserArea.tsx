@@ -32,7 +32,7 @@ export default function Userarea() {
         <div className="flex flex-row">
           <Button handleExecute={handleSaveToFile} label=">" />
           <Button handleExecute={handleSaveToFile} label="|>" />
-          <NextButton />
+          <NextButton code={code} />
         </div>
       </div>
     </div>

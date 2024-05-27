@@ -33,18 +33,13 @@ const websocketSlice = createSlice({
     receiveMessage(state, action: PayloadAction<any>) {
       // JSON 형태의 데이터를 받아옴
       state.messages.push(action.payload);
-      console.log('receiveMessage', action.payload);
     },
     setLoading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload;
     },
-    setResponse(state, action: PayloadAction<any>) {
-      state.response = action.payload;
-      state.loading = false;
-    },
   },
 });
 
-export const { connect, disconnect, receiveMessage, setLoading, setResponse } =
+export const { connect, disconnect, receiveMessage, setLoading } =
   websocketSlice.actions;
 export default websocketSlice.reducer;

@@ -38,6 +38,7 @@ export const initWebSocket = (dispatch: AppDispatch) => {
     // socket으로부터 메시지를 받으면 store에 receiveMessage action을 dispatch
     socket.onmessage = (event: MessageEvent) => {
       const data = JSON.parse(event.data);
+
       if (data.requestId && pendingRequests.has(data.requestId)) {
         // Resolve the pending request
         pendingRequests.get(data.requestId)!(data);
@@ -59,6 +60,7 @@ export const sendWebSocketMessage = (message: any): Promise<any> => {
   return new Promise((resolve, reject) => {
     if (socket && socket.readyState === WebSocket.OPEN) {
       const requestId = generateUniqueId();
+
       pendingRequests.set(requestId, resolve);
       socket.send(JSON.stringify({ ...message, requestId }));
     } else {

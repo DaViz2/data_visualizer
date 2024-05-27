@@ -6,12 +6,18 @@ import {
   initWebSocket,
   sendWebSocketMessage,
 } from '../../../reducer/websocket/webSocket';
-import {
-  setLoading,
-  setResponse,
-} from '../../../reducer/websocket/webSocketSlice';
+import { setLoading } from '../../../reducer/websocket/webSocketSlice';
 
-function NextButton(): JSX.Element {
+interface NextButtonProps {
+  code: string;
+}
+
+interface CodeInfo {
+  code: string;
+  lang: string;
+}
+
+function NextButton({ code }: NextButtonProps): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   const { connected } = useSelector((state: RootState) => state.webSocket);
 
@@ -25,20 +31,34 @@ function NextButton(): JSX.Element {
   };
 
   const handleExecute = async () => {
-    const message = {
-      value: 'next',
-    };
-
     if (!connected) {
+      const codeinfo: CodeInfo = {
+        code,
+        lang: 'python',
+      };
       await initializeWebSocket();
-      // Todo: 코드 전송
-      message.value = 'code';
+
+      try {
+        dispatch(setLoading(true));
+
+        const response = await sendWebSocketMessage(codeinfo);
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        dispatch(setLoading(false));
+      }
+
+      return;
     }
 
     try {
+      const message = {
+        command: 'step  ',
+      };
       dispatch(setLoading(true));
       const response = await sendWebSocketMessage(message);
-      dispatch(setResponse(response));
+      console.log(response);
     } catch (error) {
       console.error(error);
     } finally {
