@@ -24,9 +24,8 @@ const dataSlice = createSlice({
         data: [...state.data, action.payload],
       };
     },
-    getData: (state) => state,
   },
 });
 
-export const { addData, getData } = dataSlice.actions;
+export const { addData } = dataSlice.actions;
 export default dataSlice.reducer;

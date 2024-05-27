@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { saveAs } from 'file-saver';
 import Blueprint from './blueprint/Blueprint';
 import TabComponent from '../tab/Tab';
 import Board from './board/Board';
@@ -8,9 +7,12 @@ import NextButton from './interactButton/nextButton';
 
 export default function Userarea() {
   const [code, setCode] = useState('');
-  const handleSaveToFile = () => {
-    const blob = new Blob([code], { type: 'application/json;charset=utf-8' });
-    saveAs(blob, 'code.json');
+  const sendCodeToWebSocket = () => {
+    const codeInfo: CodeInfo = {
+      code,
+      lang: 'python',
+    };
+    sendWebSocketMessage(JSON.stringify(codeInfo));
   };
   const tabs = [
     {
