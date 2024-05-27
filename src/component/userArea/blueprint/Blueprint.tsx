@@ -40,7 +40,6 @@ function DnDFlow() {
     useState<ReactFlowInstance | null>(null);
   const dispatch = useAppDispatch();
   const structs = useAppSelector((state) => state.structdata.structs);
-  const vars = useAppSelector((state) => state.vardata);
 
   const onConnect = useCallback(
     (params: Edge | Connection) => {
@@ -59,8 +58,6 @@ function DnDFlow() {
           adj: struct!.adj.concat(newAdj),
         }),
       );
-      console.log(structs);
-      console.log(vars);
       return setEdges((eds) => addEdge(params, eds));
     },
     [nodes],
