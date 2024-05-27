@@ -5,12 +5,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface WebSocketState {
   connected: boolean;
   messages: any[];
+  response: any | null;
+  loading: boolean;
 }
 
 // Define the initial state using that type
 const initialState: WebSocketState = {
   connected: false,
   messages: [],
+  response: null,
+  loading: false,
 };
 
 // Define the slice using the createSlice function
@@ -28,10 +32,14 @@ const websocketSlice = createSlice({
     },
     receiveMessage(state, action: PayloadAction<any>) {
       // JSON 형태의 데이터를 받아옴
-      console.log('receiveMessage', action.payload);
+      state.messages.push(action.payload);
+    },
+    setLoading(state, action: PayloadAction<boolean>) {
+      state.loading = action.payload;
     },
   },
 });
 
-export const { connect, disconnect, receiveMessage } = websocketSlice.actions;
+export const { connect, disconnect, receiveMessage, setLoading } =
+  websocketSlice.actions;
 export default websocketSlice.reducer;
