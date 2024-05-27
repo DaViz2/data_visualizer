@@ -7,13 +7,7 @@ import NextButton from './interactButton/nextButton';
 
 export default function Userarea() {
   const [code, setCode] = useState('');
-  const sendCodeToWebSocket = () => {
-    const codeInfo: CodeInfo = {
-      code,
-      lang: 'python',
-    };
-    sendWebSocketMessage(JSON.stringify(codeInfo));
-  };
+
   const tabs = [
     {
       // title: 'Code Area',
@@ -32,8 +26,8 @@ export default function Userarea() {
       <TabComponent tabs={tabs} />
       <div className="absolute top-0 right-0">
         <div className="flex flex-row">
-          <Button handleExecute={handleSaveToFile} label=">" />
-          <Button handleExecute={handleSaveToFile} label="|>" />
+          <Button handleExecute={() => {}} label=">" />
+          <Button handleExecute={() => {}} label="|>" />
           <NextButton code={code} />
         </div>
       </div>
