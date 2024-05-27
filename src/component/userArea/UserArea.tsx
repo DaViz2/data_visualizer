@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
-import { saveAs } from 'file-saver';
 import Blueprint from './blueprint/Blueprint';
 import TabComponent from '../tab/Tab';
 import Board from './board/Board';
 import Button from './board/Button';
+import { sendWebSocketMessage } from '../../reducer/websocket/webSocket';
+
+interface CodeInfo {
+  code: string;
+  lang: string;
+}
 
 export default function Userarea() {
   const [code, setCode] = useState('');
-  const handleSaveToFile = () => {
-    const blob = new Blob([code], { type: 'application/json;charset=utf-8' });
-    saveAs(blob, 'code.json');
+  const sendCodeToWebSocket = () => {
+    const codeInfo: CodeInfo = {
+      code,
+      lang: 'python',
+    };
+    sendWebSocketMessage(JSON.stringify(codeInfo));
   };
   const tabs = [
     {
@@ -29,8 +37,8 @@ export default function Userarea() {
       <TabComponent tabs={tabs} />
       <div className="absolute top-0 right-0">
         <div className="flex flex-row">
-          <Button handleExecute={handleSaveToFile} label=">" />
-          <Button handleExecute={handleSaveToFile} label="|>" />
+          <Button handleExecute={sendCodeToWebSocket} label=">" />
+          <Button handleExecute={sendCodeToWebSocket} label="|>" />
         </div>
       </div>
     </div>
