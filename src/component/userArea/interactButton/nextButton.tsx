@@ -23,7 +23,7 @@ interface Message {
 }
 
 interface ResponseProp {
-  message: Message;
+  message: string;
   line: string;
   requestId: string;
   function: string;
@@ -70,7 +70,13 @@ function NextButton({ code }: NextButtonProps): JSX.Element {
       };
       dispatch(setLoading(true));
       const response: ResponseProp = await sendWebSocketMessage(message);
-      const newVars: VarData[] = response.message.data.map((value) => {
+      if (response.message === 'Script Returned') {
+        return;
+      }
+
+      const receivedMessage: Message = JSON.parse(response.message);
+
+      const newVars: VarData[] = receivedMessage.data.map((value) => {
         return { ...value, functionSpace: response.function };
       });
       newVars.forEach((value) => dispatch(addData(value)));

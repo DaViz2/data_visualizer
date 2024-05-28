@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { addData, VarData } from '../../../reducer/vardata';
+import { useAppSelector } from '../../../hooks';
+import { VarData } from '../../../reducer/vardata';
 import './blueprint.css';
 // eslint-disable-next-line import/namespace
 import { NodeProp } from './CustomNodes';
@@ -12,7 +12,6 @@ function VarSidebar({ nodes }: SidebarProp) {
     nodeCount: 0,
     nodes,
   });
-  const dispatch = useAppDispatch();
   const vardata = useAppSelector((state) => state.vardata);
 
   // 서버에서 넘어온 변수를 자동으로 목록에 추가하는 부분
@@ -20,7 +19,6 @@ function VarSidebar({ nodes }: SidebarProp) {
     let cnt = nodeItems.nodeCount;
     const newNodes: NodeProp[] = vardata.data.map((varData: VarData) => {
       cnt += 1;
-      dispatch(addData(varData));
       return {
         nodeId: (cnt - 1).toString(),
         nodeName: varData.name,
