@@ -13,7 +13,7 @@ import './blueprint.css';
 import 'reactflow/dist/style.css';
 import Sidebar from './StructureSidebar';
 import VarSidebar from './VarSidebar';
-import { NodeProp, nodeTypes } from './CustumNodes';
+import { NodeProp, nodeTypes } from './CustomNodes';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import {
   addstruct,

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Blueprint from './blueprint/Blueprint';
 import TabComponent from '../tab/Tab';
 import Board from './board/Board';
-import Button from './board/Button';
 import NextButton from './interactButton/nextButton';
 
 export default function Userarea() {
@@ -26,8 +25,6 @@ export default function Userarea() {
       <TabComponent tabs={tabs} />
       <div className="absolute top-0 right-0">
         <div className="flex flex-row">
-          <Button handleExecute={() => {}} label=">" />
-          <Button handleExecute={() => {}} label="|>" />
           <NextButton code={code} />
         </div>
       </div>

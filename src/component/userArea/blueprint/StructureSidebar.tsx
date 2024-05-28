@@ -1,6 +1,6 @@
 import React from 'react';
 import './blueprint.css';
-import { NodeProp } from './CustumNodes';
+import { NodeProp } from './CustomNodes';
 
 export interface SidebarProp {
   // eslint-disable-next-line react/no-unused-prop-types

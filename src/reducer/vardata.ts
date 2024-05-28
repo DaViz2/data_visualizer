@@ -1,9 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface VarData {
+export interface SmallVarData {
   name: string;
   value: string;
   type: string;
+}
+
+export interface VarData extends SmallVarData {
+  functionSpace: string;
 }
 
 interface DataState {
@@ -19,6 +23,21 @@ const dataSlice = createSlice({
   initialState,
   reducers: {
     addData: (state: DataState, action: PayloadAction<VarData>) => {
+      const idx = state.data.findIndex((value) => {
+        return (
+          action.payload.name === value.name &&
+          action.payload.functionSpace === value.functionSpace
+        );
+      });
+      if (idx !== -1) {
+        return {
+          ...state,
+          data: state.data.map((value, index) =>
+            index === idx ? action.payload : value,
+          ),
+        };
+      }
+
       return {
         ...state,
         data: [...state.data, action.payload],

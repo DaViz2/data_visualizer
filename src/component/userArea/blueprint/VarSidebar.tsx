@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { addData, VarData } from '../../../reducer/vardata';
 import './blueprint.css';
 // eslint-disable-next-line import/namespace
-import { NodeProp } from './CustumNodes';
+import { NodeProp } from './CustomNodes';
 import { SidebarProp } from './StructureSidebar';
 
 function VarSidebar({ nodes }: SidebarProp) {
@@ -13,26 +13,23 @@ function VarSidebar({ nodes }: SidebarProp) {
     nodes,
   });
   const dispatch = useAppDispatch();
+  const vardata = useAppSelector((state) => state.vardata);
 
   // 서버에서 넘어온 변수를 자동으로 목록에 추가하는 부분
   useEffect(() => {
     let cnt = nodeItems.nodeCount;
-    fetch('/varData.json')
-      .then((response) => response.json())
-      .then((varDatas) => {
-        const newNodes: NodeProp[] = varDatas.data.map((varData: VarData) => {
-          cnt += 1;
-          dispatch(addData(varData));
-          return {
-            nodeId: (cnt - 1).toString(),
-            nodeName: varData.name,
-            nodeType: 'varNode',
-            nodeContent: varData.type,
-          };
-        });
-        setNodeItems({ nodeCount: cnt - 1, nodes: newNodes });
-      });
-  }, []);
+    const newNodes: NodeProp[] = vardata.data.map((varData: VarData) => {
+      cnt += 1;
+      dispatch(addData(varData));
+      return {
+        nodeId: (cnt - 1).toString(),
+        nodeName: varData.name,
+        nodeType: 'varNode',
+        nodeContent: varData.type,
+      };
+    });
+    setNodeItems({ nodeCount: cnt - 1, nodes: newNodes });
+  }, [vardata]);
 
   // 새로운 변수명 관리
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -7,6 +7,7 @@ import {
   sendWebSocketMessage,
 } from '../../../reducer/websocket/webSocket';
 import { setLoading } from '../../../reducer/websocket/webSocketSlice';
+import { addData, SmallVarData, VarData } from '../../../reducer/vardata';
 
 interface NextButtonProps {
   code: string;
@@ -15,6 +16,17 @@ interface NextButtonProps {
 interface CodeInfo {
   code: string;
   lang: string;
+}
+
+interface Message {
+  data: SmallVarData[];
+}
+
+interface ResponseProp {
+  message: Message;
+  line: string;
+  requestId: string;
+  function: string;
 }
 
 function NextButton({ code }: NextButtonProps): JSX.Element {
@@ -34,7 +46,7 @@ function NextButton({ code }: NextButtonProps): JSX.Element {
     if (!connected) {
       const codeinfo: CodeInfo = {
         code,
-        lang: 'python',
+        lang: 'python3',
       };
       await initializeWebSocket();
 
@@ -57,7 +69,11 @@ function NextButton({ code }: NextButtonProps): JSX.Element {
         command: 'step  ',
       };
       dispatch(setLoading(true));
-      const response = await sendWebSocketMessage(message);
+      const response: ResponseProp = await sendWebSocketMessage(message);
+      const newVars: VarData[] = response.message.data.map((value) => {
+        return { ...value, functionSpace: response.function };
+      });
+      newVars.forEach((value) => dispatch(addData(value)));
       console.log(response);
     } catch (error) {
       console.error(error);
