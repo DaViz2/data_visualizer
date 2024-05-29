@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useMemo } from 'react';
+import React from 'react';
 import Draggable from 'react-draggable';
 import {
   useReactTable,
@@ -20,7 +20,7 @@ function createColumnsFromArray(data: number[][]): ColumnDef<number[]>[] {
     return [];
   }
 
-  const columnCount = data[0].length; // 첫 번째 행의 길이로 컬럼 수 결정
+  const columnCount = Math.max(...data.map((value) => value.length)); // 첫 번째 행의 길이로 컬럼 수 결정
   const columns = [];
 
   for (let i = 0; i < columnCount; i += 1) {
@@ -38,14 +38,10 @@ function ArrayTable({ data }: TableFromMultiArrayProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // const fgRef = useRef<any>(null);
 
-  // 데이터와 컬럼 메모이제이션
-  const memoizedColumns = useMemo(() => createColumnsFromArray(data), [data]);
-  const memoizedData = useMemo(() => data, [data]);
-
   // 테이블 생성
   const table = useReactTable({
-    data: memoizedData,
-    columns: memoizedColumns,
+    data,
+    columns: createColumnsFromArray(data),
     getCoreRowModel: getCoreRowModel(), // 행 모델 지정
   });
 
