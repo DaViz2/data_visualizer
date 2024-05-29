@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useAppSelector } from '../../../hooks';
+import { VarData } from '../../../reducer/vardata';
 import './blueprint.css';
-import { SidebarProp } from './Sidebar';
+// eslint-disable-next-line import/namespace
+import { NodeProp } from './CustomNodes';
+import { SidebarProp } from './StructureSidebar';
 
 function VarSidebar({ nodes }: SidebarProp) {
   const [newNodeItemText, setNewNodeItemText] = useState<string>('');
@@ -8,16 +12,34 @@ function VarSidebar({ nodes }: SidebarProp) {
     nodeCount: 0,
     nodes,
   });
+  const vardata = useAppSelector((state) => state.vardata);
 
+  // 서버에서 넘어온 변수를 자동으로 목록에 추가하는 부분
+  useEffect(() => {
+    let cnt = nodeItems.nodeCount;
+    const newNodes: NodeProp[] = vardata.data.map((varData: VarData) => {
+      cnt += 1;
+      return {
+        nodeId: (cnt - 1).toString(),
+        nodeName: varData.name,
+        nodeType: 'varNode',
+        nodeContent: varData.type,
+      };
+    });
+    setNodeItems({ nodeCount: cnt - 1, nodes: newNodes });
+  }, [vardata]);
+
+  // 새로운 변수명 관리
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewNodeItemText(event.target.value);
   };
 
   const handleDeleteItem = (id: string) => {
     const newItems = nodeItems.nodes.filter((item) => item.nodeId !== id);
-    setNodeItems({ nodeCount: nodeItems.nodeCount - 1, nodes: newItems }); // 항목 삭제
+    setNodeItems({ nodeCount: nodeItems.nodeCount - 1, nodes: newItems });
   };
 
+  // Enter로 새로운 변수명 입력 시 처리
   const handleAddNodeItem = () => {
     if (newNodeItemText.trim() !== '') {
       setNodeItems({
@@ -25,9 +47,10 @@ function VarSidebar({ nodes }: SidebarProp) {
         nodes: [
           ...nodeItems.nodes,
           {
-            nodeId: nodeItems.nodeCount.toString(),
+            nodeId: (nodeItems.nodeCount + 1).toString(),
             nodeName: newNodeItemText.trim(),
             nodeType: 'varNode',
+            nodeContent: '',
           },
         ],
       });
@@ -43,15 +66,15 @@ function VarSidebar({ nodes }: SidebarProp) {
     }
   };
 
+  // 변수 리스트에서 끌어오는 부분 처리
   const onDragStart = (
     event: React.DragEvent<HTMLDivElement>,
-    nodeType: string,
-    nodeName: string,
+    nodeInfo: NodeProp,
   ) => {
     const newEvent = { ...event };
     newEvent.dataTransfer.setData(
       'application/reactflow',
-      `${nodeType}/${nodeName}`,
+      JSON.stringify(nodeInfo),
     );
     // eslint-disable-next-line no-param-reassign
     newEvent.dataTransfer.effectAllowed = 'move';
@@ -65,9 +88,9 @@ function VarSidebar({ nodes }: SidebarProp) {
             // eslint-disable-next-line react/no-array-index-key
             key={node.nodeId}
             className="dndnode"
-            onDragStart={(event) =>
-              onDragStart(event, node.nodeType, node.nodeName)
-            }
+            onDragStart={(event) => {
+              onDragStart(event, node);
+            }}
             draggable
           >
             {node.nodeName}
@@ -81,7 +104,7 @@ function VarSidebar({ nodes }: SidebarProp) {
         type="text"
         value={newNodeItemText}
         onChange={handleInputChange}
-        placeholder="새로운 조사식"
+        placeholder="새로운 변수명"
         onKeyUp={handleInputKeyPress}
       />
     </div>
