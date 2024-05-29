@@ -2,6 +2,9 @@
 1. (중요)작업영역으로 열기
 2. `yarn start`
 
+### Server 관련 설정
+`src/reducer/websocket/config.json`
+
 ### 프로젝트 디렉토리 구조
 - **component** : 재사용 가능한 컴포넌트
 - **assets** : 이미지, 폰트 등
