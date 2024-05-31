@@ -22,7 +22,7 @@ export default function Userarea() {
   ];
   return (
     <div className="relative flex w-full h-[100%]">
-      <TabComponent tabs={tabs} />
+      <TabComponent tabname="UserArea" tabs={tabs} />
       <div className="absolute top-0 right-0">
         <div className="flex flex-row">
           <NextButton code={code} />

@@ -1,16 +1,18 @@
 import React from 'react';
 import { Handle, NodeTypes, Position } from 'reactflow';
+import { handleStringify } from './handleParser';
 
 export interface NodeProp {
   nodeId: string;
   nodeName: string;
   nodeType: string;
   nodeContent: string;
+  functionSpace: string;
 }
 
 interface CustomNodeProps {
   isConnectable: boolean;
-  data: { label: string; content: string };
+  data: { label: string; content: string; functionSpace: string };
 }
 
 export function GraphNode({ isConnectable, data }: CustomNodeProps) {
@@ -57,7 +59,7 @@ export function VarNode({ isConnectable, data }: CustomNodeProps) {
       <Handle
         type="source"
         position={Position.Right}
-        id={data.label}
+        id={handleStringify(data.label, data.functionSpace)}
         isConnectable={isConnectable}
       />
     </div>

@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { updateActiveTab } from '../../reducer/activeTab';
 import './tab.css';
 
 interface Tab {
@@ -7,14 +9,18 @@ interface Tab {
 }
 
 interface TabComponentProps {
+  tabname: string;
   tabs: Tab[];
 }
 
-function TabComponent({ tabs }: TabComponentProps): JSX.Element {
-  const [activeTab, setActiveTab] = useState<number>(0);
+function TabComponent({ tabname, tabs }: TabComponentProps): JSX.Element {
+  const activeTab = useAppSelector((state) => state.activeTab.activeTab);
+  const dispatch = useAppDispatch();
 
   const handleTabClick = (index: number) => {
-    setActiveTab(index);
+    dispatch(
+      updateActiveTab({ activeTab: { ...activeTab, [tabname]: index } }),
+    );
   };
 
   return (
@@ -27,11 +33,11 @@ function TabComponent({ tabs }: TabComponentProps): JSX.Element {
             onClick={() => handleTabClick(index)}
             type="button"
             className={`${
-              index === activeTab ? 'active ' : ''
+              index === activeTab[tabname] ? 'active ' : ''
             }flex pr-3 w-[10rem] h-[2rem]`}
           >
             <div
-              className={`flex ${index === activeTab ? 'bg-[#3D3D3D] ' : 'bg-[#707070] '} w-full h-full justify-center items-center`}
+              className={`flex ${index === activeTab[tabname] ? 'bg-[#3D3D3D] ' : 'bg-[#707070] '} w-full h-full justify-center items-center`}
             >
               {tab.title}
             </div>
@@ -43,7 +49,7 @@ function TabComponent({ tabs }: TabComponentProps): JSX.Element {
           <div
             // eslint-disable-next-line react/no-array-index-key
             key={index}
-            className={`${index === activeTab ? 'activeContent' : 'inactiveContent'}`}
+            className={`${index === activeTab[tabname] ? 'activeContent' : 'inactiveContent'}`}
           >
             {tab.content}
           </div>

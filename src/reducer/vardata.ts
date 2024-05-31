@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface SmallVarData {
   name: string;
-  value: string;
+  value: any;
   type: string;
 }
 

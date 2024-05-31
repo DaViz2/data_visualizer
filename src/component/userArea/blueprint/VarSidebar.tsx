@@ -24,6 +24,7 @@ function VarSidebar({ nodes }: SidebarProp) {
         nodeName: varData.name,
         nodeType: 'varNode',
         nodeContent: varData.type,
+        functionSpace: varData.functionSpace,
       };
     });
     setNodeItems({ nodeCount: cnt - 1, nodes: newNodes });
@@ -51,6 +52,7 @@ function VarSidebar({ nodes }: SidebarProp) {
             nodeName: newNodeItemText.trim(),
             nodeType: 'varNode',
             nodeContent: '',
+            functionSpace: '',
           },
         ],
       });

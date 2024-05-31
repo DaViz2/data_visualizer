@@ -1,73 +1,37 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useMemo } from 'react';
+import React from 'react';
 import Draggable from 'react-draggable';
-import {
-  useReactTable,
-  ColumnDef,
-  getCoreRowModel,
-  flexRender,
-} from '@tanstack/react-table';
 
-// show2
-// 프로퍼티 타입 정의
-interface TableFromMultiArrayProps {
-  data: number[][]; // 다차원 배열 형태의 데이터
+interface ArrayTableProps {
+  data: (number | string)[] | (number | string)[][];
 }
 
-// 컬럼 자동 생성 함수
-function createColumnsFromArray(data: number[][]): ColumnDef<number[]>[] {
-  if (data.length === 0) {
-    return [];
-  }
+function ArrayTable({ data }: ArrayTableProps) {
+  const convertedArray = Array.isArray(data[0])
+    ? (data as (number | string)[][])
+    : [data as (number | string)[]];
+  const maxColumns = Math.max(...convertedArray.map((row) => row.length));
 
-  const columnCount = data[0].length; // 첫 번째 행의 길이로 컬럼 수 결정
-  const columns = [];
-
-  for (let i = 0; i < columnCount; i += 1) {
-    columns.push({
-      header: `Column ${i + 1}`, // 컬럼 헤더 이름 설정
-      accessorFn: (row: any) => row[i], // 각 행의 i번째 요소를 가져오는 함수
-    });
-  }
-
-  return columns;
-}
-
-// TableFromMultiArray 컴포넌트
-function ArrayTable({ data }: TableFromMultiArrayProps) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // const fgRef = useRef<any>(null);
-
-  // 데이터와 컬럼 메모이제이션
-  const memoizedColumns = useMemo(() => createColumnsFromArray(data), [data]);
-  const memoizedData = useMemo(() => data, [data]);
-
-  // 테이블 생성
-  const table = useReactTable({
-    data: memoizedData,
-    columns: memoizedColumns,
-    getCoreRowModel: getCoreRowModel(), // 행 모델 지정
-  });
+  const tArray = Array.from({ length: maxColumns }, (_, colIndex) =>
+    convertedArray.map((row) => row[colIndex]),
+  );
 
   return (
     <div className="h-full w-full overflow-hidden box-border bg-[#CADCA0] border-2 border-[#3D3D3D] flex justify-center">
-      <Draggable positionOffset={{ x: 0, y: '100%' }}>
-        <table className="h-fit ">
-          <tbody className="bg-white divide-x divide-gray-200 divide-y divide-gray-200 ">
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
-                {row.getAllCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className="px-4 py-2 text-center hover:bg-gray-100"
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
+      <Draggable>
+        <div className="inline-block bg-gray-200 rounded-md px-0.5 h-fit m-auto">
+          <div className="grid grid-flow-col auto-cols-max">
+            {tArray.map((row) => (
+              <div className="row">
+                {row.map((item) => (
+                  <div className="flex items-center justify-center rounded-md bg-gray-100 p-4 hover:bg-gray-300 transition-colors duration-300 h-10 mx-0.5 my-1 font-mono text-slate-600">
+                    {item}
+                  </div>
                 ))}
-              </tr>
+              </div>
             ))}
-          </tbody>
-        </table>
+          </div>
+        </div>
       </Draggable>
     </div>
   );

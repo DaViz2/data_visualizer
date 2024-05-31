@@ -1,35 +1,43 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import TabComponent from '../tab/Tab';
-import Graph from './Graph/Graph';
-import Table from './Table/Table';
-import ArrayTable from './Table/ArrayTable';
-import testGraphData from '../../assets/testData/testgraph.json';
-import testArrayData from '../../assets/testData/testarray.json';
-import testTableData from '../../assets/testData/testtable.json';
+import { useAppSelector } from '../../hooks';
+import ShowComponent from './ShowComponent';
 
 export default function Showarea() {
   const ref = useRef<HTMLDivElement>(null);
-  const tabs = Array.from(
-    [
-      <Graph nodes={testGraphData.nodes} links={testGraphData.edges} />,
-      <ArrayTable data={testArrayData} />,
-      <Table data={testTableData} />,
-    ],
-    (component, i) => ({
-      title: <span style={{ color: '#FFFFFF' }}>Show{i + 1}</span>,
-      content: (
-        <div className="relative h-[100%] w-full">
-          <div className="h-full w-full" ref={ref}>
-            {component}
-          </div>
-        </div>
+  const [tabs, setTabs] = useState<
+    { title: JSX.Element; content: JSX.Element }[]
+  >([]);
+  const structdata = useAppSelector((state) => state.structdata.structs);
+  const activeTab = useAppSelector((state) => state.activeTab.activeTab);
+  useEffect(() => {
+    setTabs(
+      Array.from(
+        structdata.map((value, index) => {
+          return (
+            <ShowComponent
+              struct={value}
+              active={activeTab.ShowArea === index}
+            />
+          );
+        }),
+        (component, i) => ({
+          title: <span style={{ color: '#FFFFFF' }}>Show{i + 1}</span>,
+          content: (
+            <div className="relative h-[100%] w-full">
+              <div className="h-full w-full" ref={ref}>
+                {component}
+              </div>
+            </div>
+          ),
+        }),
       ),
-    }),
-  );
+    );
+  }, [structdata, activeTab.ShowArea]);
 
   return (
     <div className="relative flex w-full h-[100%] bg-[#252F3E] ">
-      <TabComponent tabs={tabs} />
+      <TabComponent tabname="ShowArea" tabs={tabs} />
     </div>
   );
 }

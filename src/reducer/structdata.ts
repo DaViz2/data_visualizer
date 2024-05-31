@@ -3,12 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export interface VarConData {
   handleType: string;
   varName: string;
+  functionSpace: string;
 }
 
 export interface StructData {
   structId: string;
   structType: string;
-  adj: VarConData[];
+  adj: { [key: string]: { varName: string; functionSpace: string } };
 }
 
 interface ConnectionState {

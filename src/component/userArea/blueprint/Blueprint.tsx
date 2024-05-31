@@ -15,14 +15,11 @@ import Sidebar from './StructureSidebar';
 import VarSidebar from './VarSidebar';
 import { NodeProp, nodeTypes } from './CustomNodes';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import {
-  addstruct,
-  updatestruct,
-  VarConData,
-} from '../../../reducer/structdata';
+import { addstruct, updatestruct } from '../../../reducer/structdata';
+import { handleParse } from './handleParser';
 
 const initialNodes: Node<
-  { label: string; content: string },
+  { label: string; content: string; functionSpace: string },
   string | undefined
 >[] = [];
 
@@ -49,13 +46,22 @@ function DnDFlow() {
       const struct = structs.find((value) => {
         return value.structId === target!.id;
       });
-      const newAdj: VarConData[] = [
-        { handleType: params.targetHandle!, varName: params.sourceHandle! },
-      ];
+      const sourceData: { nodeName: string; functionSpace: string } =
+        handleParse(params.sourceHandle!);
+      const newAdj: {
+        [key: string]: { varName: string; functionSpace: string };
+      } = {};
+      newAdj[params.targetHandle!] = {
+        varName: sourceData.nodeName,
+        functionSpace: sourceData.functionSpace,
+      };
       dispatch(
         updatestruct({
           ...struct!,
-          adj: struct!.adj.concat(newAdj),
+          adj: {
+            ...struct!.adj,
+            ...newAdj,
+          },
         }),
       );
       return setEdges((eds) => addEdge(params, eds));
@@ -88,6 +94,7 @@ function DnDFlow() {
         data: {
           label: `${nodeInfo.nodeName}`,
           content: `${nodeInfo.nodeContent}`,
+          functionSpace: `${nodeInfo.functionSpace}`,
         },
         style: {
           fontSize: '0.5rem',
@@ -99,13 +106,17 @@ function DnDFlow() {
           addstruct({
             structId: newNode.id,
             structType: nodeInfo.nodeName,
-            adj: [],
+            adj: {},
           }),
         );
 
       setNodes(
-        (nds: Node<{ label: string; content: string }, string | undefined>[]) =>
-          nds.concat(newNode),
+        (
+          nds: Node<
+            { label: string; content: string; functionSpace: string },
+            string | undefined
+          >[],
+        ) => nds.concat(newNode),
       );
     },
     [reactFlowInstance],
@@ -146,12 +157,14 @@ function DnDFlow() {
                 nodeName: 'Graph',
                 nodeType: 'graphNode',
                 nodeContent: '',
+                functionSpace: '',
               },
               {
                 nodeId: '2',
                 nodeName: 'Table',
                 nodeType: 'structureNode',
                 nodeContent: '',
+                functionSpace: '',
               },
             ]}
           />
