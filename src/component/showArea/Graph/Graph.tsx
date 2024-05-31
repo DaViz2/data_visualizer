@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import React, { useRef, useState, useEffect } from 'react';
-import { ForceGraph2D } from 'react-force-graph';
+import ForceGraph, { ForceGraphMethods } from 'react-force-graph-2d';
+import * as d3 from 'd3-force';
 import { NodeData, LinkData } from '../../../assets/testData/testDataType';
 
 interface Dimensions {
@@ -17,8 +19,7 @@ interface GraphProps {
 function Graph({ nodes, links }: GraphProps) {
   const ref = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const fgRef = useRef<any>(null);
-  const [rendered, setRendered] = useState<boolean>(false);
+  const fgRef = useRef<ForceGraphMethods | null>(null);
   const [dimensions, setDimensions] = useState<Dimensions>({
     width: 0,
     height: 0,
@@ -28,7 +29,7 @@ function Graph({ nodes, links }: GraphProps) {
     nodes: nodes.map((node) => ({
       id: node.id,
       name: node.name,
-      val: 12,
+      val: 6,
     })),
     links,
   };
@@ -36,26 +37,32 @@ function Graph({ nodes, links }: GraphProps) {
   useEffect(() => {
     if (ref.current) {
       setDimensions({
-        width: ref.current.clientWidth,
-        height: ref.current.clientHeight,
+        width:
+          dimensions.width < ref.current.offsetWidth
+            ? ref.current.offsetWidth
+            : dimensions.width,
+        height:
+          dimensions.height < ref.current.offsetHeight
+            ? ref.current.offsetHeight
+            : dimensions.height,
       });
     }
 
-    setRendered(true);
-  }, []);
+    if (fgRef.current) {
+      const fg = fgRef.current;
+      (fg.d3Force('link') as d3.ForceLink<any, any>).distance(100);
+    }
+  }, [ref.current?.offsetHeight, ref.current?.offsetWidth]);
 
   return (
     <div
       ref={ref}
       className="h-full w-full overflow-hidden box-border bg-[#CADCA0] border-2 border-[#3D3D3D]"
-      style={
-        rendered
-          ? { maxWidth: dimensions.width, maxHeight: dimensions.height }
-          : {}
-      }
     >
-      <ForceGraph2D
-        ref={fgRef}
+      <ForceGraph
+        ref={
+          fgRef as React.MutableRefObject<ForceGraphMethods<{}, {}> | undefined>
+        }
         graphData={data}
         width={dimensions.width}
         height={dimensions.height}
@@ -81,7 +88,7 @@ function Graph({ nodes, links }: GraphProps) {
           }
         }}
         onBackgroundRightClick={() => {
-          fgRef.current.zoomToFit();
+          fgRef.current!.zoomToFit();
         }}
         linkColor={() => '#000000'}
         nodeColor={() => '#FF8C1A'}
