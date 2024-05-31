@@ -17,7 +17,7 @@ const pendingRequests = new Map<string, (response: any) => void>();
 export const initWebSocket = (dispatch: AppDispatch) => {
   return new Promise((resolve, reject) => {
     socket = new WebSocket(
-      `ws://${webSocketConfig.server.host}:${webSocketConfig.server.port}`,
+      `ws://${webSocketConfig.server.host}:${webSocketConfig.server.port}/ws`,
     );
 
     // socket이 열리면 store에 connect action을 dispatch

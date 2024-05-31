@@ -1,29 +1,38 @@
+/* blueprint.css */
 .dndflow {
-  flex-direction: column;
   display: flex;
+  flex-direction: column;
   flex-grow: 1;
   height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background: #f0f2f5;
 }
 
 .dndflow aside {
-  border-right: 1px solid #eee;
-  padding: 15px 10px;
-  font-size: 12px;
-  background: #fcfcfc;
+  border-right: 1px solid #ddd;
+  padding: 20px;
+  font-size: 14px;
+  background: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .dndflow aside .description {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #555;
 }
 
 .dndflow .dndnode {
-  height: 20px;
-  padding: 4px;
-  border: 1px solid #1a192b;
+  height: 30px;
+  padding: 10px;
+  border: 2px solid #1a192b;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: grab;
+  border-radius: 5px;
+  background: #fff;
+  transition: background 0.3s, border-color 0.3s;
 }
 
 .dndflow .dndnode.input {
@@ -34,13 +43,17 @@
   border-color: #ff0072;
 }
 
+.dndflow .dndnode:hover {
+  background: #f9f9f9;
+}
+
 .dndflow .reactflow-wrapper {
   flex-grow: 1;
   height: 100%;
 }
 
 .dndflow .selectall {
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 @media screen and (min-width: 768px) {
@@ -49,37 +62,47 @@
   }
 
   .dndflow aside {
-    width: 20%;
-    max-width: 250px;
+    width: 25%;
+    max-width: 300px;
   }
 }
 
-.var-node {
-  height: 50px;
-  width: 50px;
-  border: 1px solid #1e00ff;
-  padding: 5px;
-  border-radius: 5px;
-  background: white;
+.var-node, .structure-node {
+  height: 60px;
+  width: 60px;
+  padding: 10px;
+  border-radius: 10px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s, border-color 0.3s;
 }
 
-.var-node label {
-  display: block;
-  color: #000cf4;
-  font-size: 12px;
+.var-node {
+  border: 2px solid #1e00ff;
+  flex-direction: column;
 }
 
 .structure-node {
-  height: 50px;
-  width: 50px;
-  border: 1px solid #ff0000;
-  padding: 5px;
-  border-radius: 5px;
-  background: white;
+  border: 2px solid #ff0000;
+}
+
+.var-node:hover, .structure-node:hover {
+  background: #f9f9f9;
+}
+
+.var-node label, .structure-node label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.var-node label {
+  color: #1e00ff;
 }
 
 .structure-node label {
-  display: block;
-  color: #ff0202;
-  font-size: 12px;
+  color: #ff0000;
 }
