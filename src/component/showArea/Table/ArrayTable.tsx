@@ -6,7 +6,6 @@ interface ArrayTableProps {
   data: (number | string)[] | (number | string)[][];
 }
 
-// TableFromMultiArray 컴포넌트
 function ArrayTable({ data }: ArrayTableProps) {
   const convertedArray = Array.isArray(data[0])
     ? (data as (number | string)[][])
