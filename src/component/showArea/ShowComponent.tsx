@@ -6,10 +6,12 @@ import { VarData } from '../../reducer/vardata';
 import { LinkData, NodeData } from '../../assets/testData/testDataType';
 import ArrayTable from './Table/ArrayTable';
 
+// Props type definition for ShowComponent
 interface ShowComponentProp {
   struct: StructData;
 }
 
+// Function to create node data from compVardata
 const makeNode = (compVardata: { [key: string]: VarData }): NodeData[] => {
   if (!compVardata.Node && !compVardata.Edge) {
     return [];
@@ -21,6 +23,7 @@ const makeNode = (compVardata: { [key: string]: VarData }): NodeData[] => {
       return { id: value, name: String(value) };
     });
   }
+
   const edges = compVardata.Edge.value as number[][];
   const nodes: number[] = Array.from(
     new Set(
@@ -28,16 +31,17 @@ const makeNode = (compVardata: { [key: string]: VarData }): NodeData[] => {
         if (curr.length !== 0) {
           return acc.concat(curr).concat([idx]);
         }
-
         return acc.concat(curr);
       }, []),
     ),
   );
+
   return nodes.map((value) => {
     return { id: value, name: String(value) };
   });
 };
 
+// Function to create edge data from compVardata
 const makeEdge = (compVardata: { [key: string]: VarData }): LinkData[] => {
   if (!compVardata.Edge) {
     return [];
@@ -53,18 +57,23 @@ const makeEdge = (compVardata: { [key: string]: VarData }): LinkData[] => {
 };
 
 export default function ShowComponent({ struct }: ShowComponentProp) {
-  const vardata = useAppSelector((state) => state.vardata.data);
-  const structdata = useAppSelector((state) => state.structdata.structs);
+  // Select vardata and structdata from the Redux store
+  const vardata = useAppSelector((state: any) => state.vardata.data);
+
+  // Local state to store computed VarData
   const [compVardata, setCompVardata] = useState<{ [key: string]: VarData }>(
     {},
   );
+
+  // Destructure structType and adj from struct prop
   const { structType, adj } = struct;
 
+  // Effect to update compVardata whenever vardata or adj changes
   useEffect(() => {
     const newCompVarData: { [key: string]: VarData } = {};
     Object.keys(adj).forEach((key) => {
       const value = adj[key];
-      vardata.forEach((item) => {
+      vardata.forEach((item: VarData) => {
         if (
           item.name === value.varName &&
           item.functionSpace === value.functionSpace
@@ -74,8 +83,9 @@ export default function ShowComponent({ struct }: ShowComponentProp) {
       });
     });
     setCompVardata(newCompVarData);
-  }, [vardata, structdata]);
+  }, [vardata, adj]);
 
+  // Render different components based on structType
   switch (structType) {
     case 'Graph':
       return (
