@@ -9,6 +9,7 @@ import ArrayTable from './Table/ArrayTable';
 // Props type definition for ShowComponent
 interface ShowComponentProp {
   struct: StructData;
+  active: boolean;
 }
 
 // Function to create node data from compVardata
@@ -56,7 +57,7 @@ const makeEdge = (compVardata: { [key: string]: VarData }): LinkData[] => {
   return retEdges;
 };
 
-export default function ShowComponent({ struct }: ShowComponentProp) {
+export default function ShowComponent({ struct, active }: ShowComponentProp) {
   // Select vardata and structdata from the Redux store
   const vardata = useAppSelector((state: any) => state.vardata.data);
 
@@ -89,7 +90,11 @@ export default function ShowComponent({ struct }: ShowComponentProp) {
   switch (structType) {
     case 'Graph':
       return (
-        <Graph nodes={makeNode(compVardata)} links={makeEdge(compVardata)} />
+        <Graph
+          nodes={makeNode(compVardata)}
+          links={makeEdge(compVardata)}
+          active={active}
+        />
       );
     case 'Table':
       return (

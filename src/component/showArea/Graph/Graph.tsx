@@ -13,10 +13,11 @@ interface Dimensions {
 interface GraphProps {
   nodes: NodeData[];
   links: LinkData[];
+  active: boolean;
 }
 
 // show1
-function Graph({ nodes, links }: GraphProps) {
+function Graph({ nodes, links, active }: GraphProps) {
   const ref = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const fgRef = useRef<ForceGraphMethods | null>(null);
@@ -52,7 +53,7 @@ function Graph({ nodes, links }: GraphProps) {
       const fg = fgRef.current;
       (fg.d3Force('link') as d3.ForceLink<any, any>).distance(100);
     }
-  }, [ref.current?.offsetHeight, ref.current?.offsetWidth]);
+  }, [active]);
 
   return (
     <div

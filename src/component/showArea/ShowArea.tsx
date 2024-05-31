@@ -9,11 +9,17 @@ export default function Showarea() {
     { title: JSX.Element; content: JSX.Element }[]
   >([]);
   const structdata = useAppSelector((state) => state.structdata.structs);
+  const activeTab = useAppSelector((state) => state.activeTab.activeTab);
   useEffect(() => {
     setTabs(
       Array.from(
-        structdata.map((value) => {
-          return <ShowComponent struct={value} />;
+        structdata.map((value, index) => {
+          return (
+            <ShowComponent
+              struct={value}
+              active={activeTab.ShowArea === index}
+            />
+          );
         }),
         (component, i) => ({
           title: <span style={{ color: '#FFFFFF' }}>Show{i + 1}</span>,
@@ -27,11 +33,11 @@ export default function Showarea() {
         }),
       ),
     );
-  }, [structdata]);
+  }, [structdata, activeTab.ShowArea]);
 
   return (
     <div className="relative flex w-full h-[100%] bg-[#252F3E] ">
-      <TabComponent tabs={tabs} />
+      <TabComponent tabname="ShowArea" tabs={tabs} />
     </div>
   );
 }
