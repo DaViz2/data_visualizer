@@ -24,7 +24,7 @@ function ArrayTable({ data }: ArrayTableProps) {
             {tArray.map((row) => (
               <div className="row">
                 {row.map((item) => (
-                  <div className="flex items-center justify-center rounded-md bg-gray-100 p-4 hover:bg-gray-300 transition-colors duration-300 h-12 mx-0.5 my-1 font-mono text-slate-600">
+                  <div className="flex items-center justify-center rounded-md bg-gray-100 p-4 hover:bg-gray-300 transition-colors duration-300 h-10 mx-0.5 my-1 font-mono text-slate-600">
                     {item}
                   </div>
                 ))}
