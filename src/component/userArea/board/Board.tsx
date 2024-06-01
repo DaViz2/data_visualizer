@@ -7,23 +7,6 @@ interface BoardProps {
   setCode: (code: string) => void;
 }
 
-/*
-editor.defineTheme('myTheme', {
-  base: 'vs',
-  inherit: true,
-  rules: [{ token: 'comment', foreground: 'ffa500', background: 'EDF9FA' }],
-  colors: {
-    'editor.foreground': '#000000',
-    'editor.background': '#FFFFFF',
-    'editorCursor.foreground': '#000000',
-    'editor.lineHighlightBackground': '#D3D3D3',
-    'editorLineNumber.foreground': '#008800',
-    'editor.selectionBackground': '#ADD6FF',
-    'editor.inactiveSelectionBackground': '#E6E6E6',
-  },
-});
-*/
-
 function Board({ code, setCode }: BoardProps) {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
@@ -44,7 +27,7 @@ function Board({ code, setCode }: BoardProps) {
   ) => {
     editorRef.current = editorInstance;
   };
-
+  // 추가한 부분: <OpenFile setCode={setCode} />
   return (
     <div className="w-full h-full transform scale-130">
       <MonacoEditor
