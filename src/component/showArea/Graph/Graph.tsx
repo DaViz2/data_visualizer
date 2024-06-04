@@ -58,7 +58,7 @@ function Graph({ nodes, links, active }: GraphProps) {
   return (
     <div
       ref={ref}
-      className="h-full w-full overflow-hidden box-border bg-[#CADCA0] border-2 border-[#3D3D3D]"
+      className="h-full w-full overflow-hidden box-border bg-[#CADCA0] border-[#3D3D3D]"
     >
       <ForceGraph
         ref={

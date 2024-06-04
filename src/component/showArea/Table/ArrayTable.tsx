@@ -17,7 +17,7 @@ function ArrayTable({ data }: ArrayTableProps) {
   );
 
   return (
-    <div className="h-full w-full overflow-hidden box-border bg-[#CADCA0] border-2 border-[#3D3D3D] flex justify-center">
+    <div className="h-full w-full overflow-hidden box-border bg-[#CADCA0] border-[#3D3D3D] flex justify-center">
       <Draggable>
         <div className="inline-block bg-gray-200 rounded-md px-0.5 h-fit m-auto">
           <div className="grid grid-flow-col auto-cols-max">

@@ -191,7 +191,7 @@ function DnDFlow() {
 
 function Blueprint() {
   return (
-    <div className="flex items-center justify-center h-full w-full p-3 bg-black">
+    <div className="flex items-center justify-center h-full w-full p-3 bg-[#f0f2f5]">
       <DnDFlow />
     </div>
   );
